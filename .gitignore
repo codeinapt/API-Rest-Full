@@ -1,0 +1,16 @@
+# Test statement (third-party document, not redistributed)
+*.pdf
+# .NET
+bin/
+obj/
+*.user
+*.suo
+.vs/
+TestResults/
+coverage/
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
+# Environment
+.env

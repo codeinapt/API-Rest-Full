@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1620" width="100%" height="100%" style="background-color: #0d1117; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#0284c7;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0d9488;stop-opacity:1" />
+    </linearGradient>
+    <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#a78bfa"/>
+    </marker>
+  </defs>
+
+  <!-- Encabezado / Header -->
+  <rect x="50" y="40" width="1100" height="190" rx="16" fill="#161b22" stroke="#30363d" stroke-width="2"/>
+  <text x="90" y="95" fill="#38bdf8" font-size="20" font-weight="bold" letter-spacing="2">ESTÁNDAR METODOLÓGICO SDAP</text>
+  <text x="90" y="140" fill="#ffffff" font-size="38" font-weight="800">Spec-Driven Agentic Programming</text>
+  <text x="90" y="180" fill="#94a3b8" font-size="21">Co-Evolución del Contexto, Gobernanza de Arquitectura y Ejecución Atómica</text>
+
+  <!-- Sección El Problema -->
+  <rect x="50" y="250" width="1100" height="200" rx="16" fill="#161b22" stroke="#f87171" stroke-width="2" stroke-dasharray="8 4"/>
+  <text x="90" y="295" fill="#f87171" font-size="22" font-weight="bold">❌ EL PROBLEMA: PARADIGMA TRANSACCIONAL Y AGENTES SIN CONTROL</text>
+  
+  <g transform="translate(90, 325)">
+    <!-- Item 1 -->
+    <circle cx="12" cy="15" r="6" fill="#f87171"/>
+    <text x="30" y="22" fill="#e2e8f0" font-size="18" font-weight="bold">Interacción Transaccional:</text>
+    <text x="270" y="22" fill="#94a3b8" font-size="18">Respuestas rápidas tipo Pregunta→Respuesta impiden comprender la profundidad del problema.</text>
+
+    <!-- Item 2 -->
+    <circle cx="12" cy="55" r="6" fill="#f87171"/>
+    <text x="30" y="62" fill="#e2e8f0" font-size="18" font-weight="bold">Lost in the Middle &amp; O(N²):</text>
+    <text x="280" y="62" fill="#94a3b8" font-size="18">Saturar la ventana provoca alucinaciones, pérdida de precisión y alto consumo de tokens.</text>
+
+    <!-- Item 3 -->
+    <circle cx="12" cy="95" r="6" fill="#f87171"/>
+    <text x="30" y="102" fill="#e2e8f0" font-size="18" font-weight="bold">Deriva Arquitectónica:</text>
+    <text x="240" y="102" fill="#94a3b8" font-size="18">Agentes autónomos ad-hoc destruyen patrones de diseño y reglas de negocio puras.</text>
+  </g>
+
+  <!-- Sección La Solución SDAP -->
+  <text x="50" y="495" fill="#ffffff" font-size="26" font-weight="bold">🛡️ LA SOLUCIÓN: ARQUITECTURA DE DOBLE CAPA Y CONTEXTO VIVO</text>
+
+  <!-- Capa 0 -->
+  <rect x="50" y="520" width="1100" height="240" rx="16" fill="#161b22" stroke="#38bdf8" stroke-width="2"/>
+  <rect x="50" y="520" width="12" height="240" fill="#38bdf8" rx="6"/>
+  <text x="90" y="560" fill="#38bdf8" font-size="22" font-weight="bold">CAPA 0: GOBERNANZA RAÍZ (.sdap/)</text>
+  <text x="500" y="560" fill="#cbd5e1" font-size="17">(Genoma Inmutable — Resultado de la Incepción Dialéctica)</text>
+
+  <g transform="translate(90, 585)" font-size="16">
+    <rect x="0" y="0" width="310" height="130" rx="8" fill="#0d1117" stroke="#30363d"/>
+    <text x="20" y="32" fill="#38bdf8" font-weight="bold">ARCH_SKELETON.md</text>
+    <text x="20" y="60" fill="#94a3b8">Fronteras arquitectónicas,</text>
+    <text x="20" y="85" fill="#94a3b8">Tech Fence y C4 Blocks.</text>
+
+    <rect x="335" y="0" width="310" height="130" rx="8" fill="#0d1117" stroke="#30363d"/>
+    <text x="355" y="32" fill="#38bdf8" font-weight="bold">DOMAIN_LOGIC.md</text>
+    <text x="355" y="60" fill="#94a3b8">Reglas de negocio puras y</text>
+    <text x="355" y="85" fill="#94a3b8">Máquinas de Estados Mermaid.</text>
+
+    <rect x="670" y="0" width="310" height="130" rx="8" fill="#0d1117" stroke="#30363d"/>
+    <text x="690" y="32" fill="#38bdf8" font-weight="bold">DATA_MINDMAP.md</text>
+    <text x="690" y="60" fill="#94a3b8">Contratos de datos, DTOs y</text>
+    <text x="690" y="85" fill="#94a3b8">Diagramas Entidad-Relación.</text>
+  </g>
+
+  <!-- Capa 1 -->
+  <rect x="50" y="780" width="1100" height="220" rx="16" fill="#161b22" stroke="#34d399" stroke-width="2"/>
+  <rect x="50" y="780" width="12" height="220" fill="#34d399" rx="6"/>
+  <text x="90" y="820" fill="#34d399" font-size="22" font-weight="bold">CAPA 1: CONTEXTO VIVO DE CÓDIGO (docs/ai/)</text>
+  <text x="620" y="820" fill="#cbd5e1" font-size="17">(El Mapa Vivo de Navegación del Sistema)</text>
+
+  <g transform="translate(90, 845)">
+    <rect x="0" y="0" width="480" height="115" rx="8" fill="#0d1117" stroke="#30363d"/>
+    <text x="20" y="32" fill="#34d399" font-size="17" font-weight="bold">15 Archivos Temáticos Agnósticos</text>
+    <text x="20" y="60" fill="#94a3b8" font-size="15">Mapean la estructura existente (UI, BD, Servicios,</text>
+    <text x="20" y="85" fill="#94a3b8" font-size="15">Manejo de Errores, Convenciones, etc.).</text>
+
+    <rect x="505" y="0" width="475" height="115" rx="8" fill="#0d1117" stroke="#30363d"/>
+    <text x="525" y="32" fill="#34d399" font-size="17" font-weight="bold">Guardrails &amp; Agente Auditor (14-ai-rules.md)</text>
+    <text x="525" y="60" fill="#94a3b8" font-size="15">Prohibición de suposiciones, límites de conducta y</text>
+    <text x="525" y="85" fill="#94a3b8" font-size="15">verificación de cumplimiento (Red-Teaming Pattern).</text>
+  </g>
+
+  <!-- Alcance Atómico Local -->
+  <rect x="50" y="1020" width="1100" height="110" rx="16" fill="#161b22" stroke="#a78bfa" stroke-width="2"/>
+  <text x="90" y="1060" fill="#a78bfa" font-size="21" font-weight="bold">🎯 EJECUCIÓN ATÓMICA LOCAL: INTERFACE_FLOW.md</text>
+  <text x="90" y="1092" fill="#94a3b8" font-size="17">Delimitación del alcance atada estrictamente a Diagramas de Secuencia Mermaid por módulo.</text>
+
+  <!-- Workflow SDAP -->
+  <text x="50" y="1170" fill="#ffffff" font-size="26" font-weight="bold">🔄 EL FLUJO DE TRABAJO CO-EVOLUTIVO Y AGÉNTICO</text>
+  
+  <g transform="translate(50, 1195)">
+    <!-- Paso 1 -->
+    <rect x="0" y="0" width="340" height="140" rx="12" fill="#161b22" stroke="#38bdf8" stroke-width="2"/>
+    <text x="20" y="35" fill="#38bdf8" font-size="19" font-weight="bold">1. Incepción Dialéctica</text>
+    <text x="20" y="65" fill="#e2e8f0" font-size="15">Co-evolución de contexto y la</text>
+    <text x="20" y="88" fill="#fbbf24" font-size="15" font-weight="bold">emergencia del Objetivo Real.</text>
+    <text x="20" y="112" fill="#94a3b8" font-size="14">Cristalización en .sdap/</text>
+
+    <!-- Flecha 1 -->
+    <path d="M 352 70 L 382 70" stroke="#a78bfa" stroke-width="3" marker-end="url(#arrow)"/>
+
+    <!-- Paso 2 -->
+    <rect x="395" y="0" width="340" height="140" rx="12" fill="#161b22" stroke="#a78bfa" stroke-width="2"/>
+    <text x="415" y="35" fill="#a78bfa" font-size="19" font-weight="bold">2. Restricción &amp; Payload</text>
+    <text x="415" y="65" fill="#e2e8f0" font-size="15">Empaquetado XML atómico:</text>
+    <text x="415" y="88" fill="#94a3b8" font-size="14">Capa 0 + Guardrails +</text>
+    <text x="415" y="112" fill="#94a3b8" font-size="14">INTERFACE_FLOW local</text>
+
+    <!-- Flecha 2 -->
+    <path d="M 747 70 L 777 70" stroke="#a78bfa" stroke-width="3" marker-end="url(#arrow)"/>
+
+    <!-- Paso 3 -->
+    <rect x="790" y="0" width="310" height="140" rx="12" fill="#161b22" stroke="#34d399" stroke-width="2"/>
+    <text x="810" y="35" fill="#34d399" font-size="19" font-weight="bold">3. Ejecución &amp; RevSync</text>
+    <text x="810" y="65" fill="#e2e8f0" font-size="15">Agente genera código &amp; tests.</text>
+    <text x="810" y="88" fill="#34d399" font-size="14" font-weight="bold">Agente Auditor valida PR.</text>
+    <text x="810" y="112" fill="#94a3b8" font-size="14">Reverse Sync a docs/ai/</text>
+  </g>
+
+  <!-- Footer Banner -->
+  <rect x="50" y="1460" width="1100" height="120" rx="16" fill="url(#grad)" />
+  <text x="600" y="1498" fill="#ffffff" font-size="19" font-weight="bold" text-anchor="middle">
+    <tspan x="600" dy="0">"El humano y la IA co-evolucionan el contexto y el problema hasta alcanzar una comprensión profunda.</tspan>
+    <tspan x="600" dy="26">Una vez congelada la especificación resultante, el humano restringe</tspan>
+    <tspan x="600" dy="26">y la IA ejecuta de forma determinista."</tspan>
+  </text>
+</svg>
