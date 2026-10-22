@@ -25,5 +25,5 @@ Usar **.NET 10 LTS**.
 - **.NET 8:** ecosistema maduro, pero su soporte termina semanas después de la entrega.
 
 ## Consecuencias
-- **Reversibilidad garantizada (Tech Fence):** no se usan características exclusivas de C# 14 / .NET 10. Bajar a .NET 8 consiste en cambiar `TargetFramework` y versiones de paquetes EF Core.
+- **Reversibilidad garantizada (Tech Fence):** `<LangVersion>12</LangVersion>` hace que el compilador impida usar características de C# 13/14. Bajar a .NET 8 consiste en cambiar `TargetFramework` y versiones de paquetes EF Core.
 - La ejecución vía Docker no requiere .NET 10 instalado en el equipo; solo la depuración local requiere el SDK 10.

@@ -18,7 +18,10 @@ No basta con saber si un usuario es "supervisor": un supervisor de Alimentos no 
 
 **Alcance por área (autorización basada en recurso):**
 - Keycloak: un grupo por área (`/areas/FOOD`). Un *protocol mapper* emite la claim `areas: ["FOOD", ...]`.
-- API: el handler resuelve producto → categoría → área y consulta a `IAuthorizationService` si el usuario es `supervisor` y tiene ese `Code` en su claim. Si no: `403`.
+- **API, en dos niveles:**
+  - Rol y scope se comprueban con **políticas de ASP.NET Core** en el controller.
+  - El alcance por área se comprueba en `Application`: el handler resuelve producto → categoría → área y una `AreaAccessPolicy` verifica, a través del puerto `ICurrentUser`, que el `Code` está en la claim `areas`. Si no: `403 AREA_ACCESS_DENIED`.
+  - Así la regla no depende de ASP.NET y se prueba de forma unitaria.
 
 **Separación de funciones:** el `admin` gestiona el catálogo pero no registra movimientos, ajustes ni reactivaciones.
 
