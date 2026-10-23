@@ -7,7 +7,7 @@
 Sin FOREIGN KEYS, un borrado físico de un producto dejaría movimientos huérfanos y destruiría el histórico de inventario. Además, un producto puede retirarse con stock físico aún en almacén (vencido, dañado, retirado del mercado…).
 
 ## Decisión
-- **Soft delete** (`IsActive`) en Áreas, Categorías y Productos. EF aplica `HasQueryFilter(x => x.IsActive)` por defecto.
+- **Soft delete** (`IsActive`) en Áreas, Categorías y Productos. Los listados filtran por `status` (por defecto `active`) de forma explícita en cada consulta. No se usa `HasQueryFilter` global, porque el detalle por `id` debe devolver también los inactivos (por ejemplo, para ver un producto con stock congelado).
 - **Productos, dos vías de baja:**
   - `DELETE /products/{id}`: baja de catálogo simple. **Solo si `Stock = 0`**; motivo automático `Discontinued`. Con stock > 0 responde `409 Conflict` indicando usar `/deactivation`.
   - `POST /products/{id}/deactivation`: baja con **stock congelado**. Body `{ reason, notes }`.

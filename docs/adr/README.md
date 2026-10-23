@@ -21,5 +21,6 @@ Formato: Michael Nygard (Estado · Contexto · Decisión · Alternativas · Cons
 | [0012](0012-estrategia-de-pruebas.md) | Estrategia de pruebas y TDD | Aceptada |
 | [0013](0013-flujo-de-trabajo-con-ia.md) | Flujo de trabajo con IA | Aceptada |
 | [0014](0014-decisiones-tecnicas-complementarias.md) | Decisiones técnicas complementarias (IDs, DbUp, endpoints, mapeo, códigos HTTP) | Aceptada |
+| [0015](0015-interpretacion-reglas-clean-code.md) | Interpretación operativa de las reglas de Clean Code | Aceptada |
 
 Limitaciones conocidas y mejoras futuras identificadas: [IMPROVEMENTS.md](../IMPROVEMENTS.md).
