@@ -70,3 +70,16 @@ writeRepository.Insert(productId, type, delta, notes, userId);
 
 ## Formato
 `.editorconfig` en la raíz y StyleCop en el build. Las reglas de StyleCop que contradicen las 7 reglas de Redarbor se desactivan en `.editorconfig`, justificándolo en un comentario (en inglés).
+
+- **Desactivadas:**
+  - SA1513 y SA1515: exigen líneas en blanco dentro de bloques (regla 2).
+  - SA0001, SA1600–SA1602 y SA1633: documentación XML y cabeceras (regla 3).
+  - SA1101: prefijo `this.`.
+- **Elevadas a error:** SA1402 y SA1649 (regla 6).
+- **`stylecop.json`:**
+  - `topLevelTypes` amplía SA1402 a interfaces y enums (los *records* también cuentan);
+  - los `using` van fuera del *namespace*.
+- **`EnforceCodeStyleInBuild`:** las preferencias de estilo de `.editorconfig` marcadas como `warning` rompen el build, por ejemplo:
+  - *namespaces* de ámbito de archivo;
+  - campos privados en camelCase;
+  - llaves obligatorias.

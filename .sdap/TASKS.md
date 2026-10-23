@@ -12,7 +12,7 @@
 
 ## Fase 0 — Cimientos
 
-### [ ] T-00 · Solución y configuración común
+### [x] T-00 · Solución y configuración común
 - **Objetivo:**
   - Solución `Inventory.sln` con los 4 proyectos y los 3 proyectos de test unitario, con sus referencias según la regla de dependencias.
   - `Directory.Build.props` (net10.0, LangVersion 12, Nullable, TreatWarningsAsErrors, StyleCop).
