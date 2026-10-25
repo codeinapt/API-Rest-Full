@@ -34,7 +34,7 @@
 - **Hecho cuando:** `docker compose up --build` deja los 3 servicios *healthy*. Reverse Sync: imágenes en `docs/ai/01`.
 - **Depende de:** T-00.
 
-### [ ] T-02 · Realm de Keycloak
+### [x] T-02 · Realm de Keycloak
 - **Objetivo:** `keycloak/realm-inventory.json` con clientes, scopes, roles, grupos de área, mappers (audiencia y `areas`) y usuarios de prueba. Montado con `--import-realm`.
 - **Payload:** `docs/ai/10` (sección Keycloak), `.sdap/DOMAIN_LOGIC.md` §4.
 - **Scope:** `keycloak/`, servicio `keycloak` en `docker-compose.yml`.
