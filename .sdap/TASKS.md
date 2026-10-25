@@ -212,8 +212,8 @@
 ### [ ] T-26 · README final
 - **Objetivo:**
   - Requisitos, configuración (`.env`), `docker compose up`, depuración local, usuarios de prueba, cómo probar en Swagger cada rol (incluidos los 403 por área), cómo ejecutar tests y cobertura.
-  - **Sección "Uso de IA":** herramientas, fases, validación y correcciones manuales, enlaces a ADRs, auditorías y token-log.
+  - **Sección "Uso de IA":** herramientas, fases, validación y correcciones manuales, enlaces a ADRs y auditorías.
   - Nota sobre las 7 reglas (el enunciado anuncia 8).
-- **Payload:** `docs/adr/README.md`, `docs/ai/README.md`, `docs/ai/token-log.md`, `docs/IMPROVEMENTS.md`.
+- **Payload:** `docs/adr/README.md`, `docs/ai/README.md`, `docs/IMPROVEMENTS.md`.
 - **Scope:** `README.md`.
 - **Depende de:** todas.

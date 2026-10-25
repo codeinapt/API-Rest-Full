@@ -76,6 +76,6 @@ docker compose up --build                      # full stack: sqlserver + keycloa
 3. `dotnet build` + `dotnet test` green.
 4. Run the **governance audit** (`.claude/agents/governance-auditor.md`) over the task diff. Save its report to `docs/ai/audits/T-XX.md`. Fix every FAIL before closing.
 5. **Reverse Sync:** update the affected `docs/ai/` files.
-6. Log the token usage in `docs/ai/token-log.md` and mark the task as done in `TASKS.md`.
+6. Mark the task as done in `TASKS.md`.
 
 Commits follow Conventional Commits in English, referencing the task ID.

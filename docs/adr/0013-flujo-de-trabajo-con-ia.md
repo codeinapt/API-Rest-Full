@@ -25,8 +25,9 @@ Flujo en 8 fases, donde cada fase deja evidencia en el repositorio:
 - auditor en subagente con contexto aislado;
 - modelo según la complejidad (más potente para diseño, intermedio para implementación);
 - memoria persistente entre sesiones;
-- Context7 para documentación bajo demanda;
-- registro del consumo por tarea (métrica TEI de SDAP).
+- Context7 para documentación bajo demanda.
+
+> **Enmienda (2026-10-25):** se descarta el registro del consumo de tokens por tarea (métrica TEI de SDAP). Solo medía el gasto y no aportaba al proceso. Las estrategias de gestión de tokens de esta lista se mantienen.
 
 ## Consecuencias
 - El proceso es reproducible con cualquier herramienta que soporte `AGENTS.md`.

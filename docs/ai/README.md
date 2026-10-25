@@ -24,6 +24,6 @@ SDAP define 15 archivos. Para una API de 4 entidades sin interfaz gráfica, se m
 | 13 | `how-to-add-features.md` | ✅ [13-how-to-add-features.md](13-how-to-add-features.md) |
 | 14 | `ai-rules.md` | ✅ [14-ai-rules.md](14-ai-rules.md) |
 
-**Evidencia del proceso:** [audits/](audits/) (informes del auditor por tarea) y [token-log.md](token-log.md) (consumo de tokens por tarea).
+**Evidencia del proceso:** [audits/](audits/) (informes del auditor por tarea).
 
 > **Estado actual:** documentación *prescriptiva*. Aún no existe código; cada tarea convierte estas guías en descripción del código real mediante Reverse Sync.

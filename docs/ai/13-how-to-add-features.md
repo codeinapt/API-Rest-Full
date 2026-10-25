@@ -21,7 +21,7 @@ Load only: <files and sections listed in the task's "Payload">.
 Constraints: AGENTS.md rules and guardrails; scope limited to the task's "Scope".
 Work TDD: failing tests first (commit test(T-XX)), then implementation (commit feat(T-XX)).
 Stop and ask if anything in the spec is ambiguous or missing.
-When green: run the governance-auditor on the task range, save the report in docs/ai/audits/T-XX.md, fix FAILs, do the Reverse Sync of docs/ai/, log tokens and mark the task done.
+When green: run the governance-auditor on the task range, save the report in docs/ai/audits/T-XX.md, fix FAILs, do the Reverse Sync of docs/ai/ and mark the task done.
 ```
 
 ## 3. Algoritmo
@@ -32,7 +32,7 @@ When green: run the governance-auditor on the task range, save the report in doc
 5. `dotnet build` (0 warnings) y `dotnet test` (verde).
 6. Auditoría (`governance-auditor`) → `docs/ai/audits/T-XX.md`. Corregir hasta tener PASS.
 7. **Reverse Sync:** si el cambio afectó a stack, carpetas, patrones, errores, seguridad o pruebas, actualizar el archivo correspondiente de `docs/ai/`.
-8. Registrar los tokens en `token-log.md` y marcar `[x]` en `TASKS.md`.
+8. Marcar `[x]` en `TASKS.md`.
 
 ## 4. Tipos de trabajo fuera de `TASKS.md`
 | Tipo | Procedimiento |
