@@ -8,7 +8,7 @@
 - **SDK fijado** en `global.json`.
 
 ## Versiones en uso
-Fijadas en T-00 (2026-10-23).
+Fijadas en T-00 (2026-10-23); imágenes Docker en T-01 (2026-10-25).
 
 | Componente | Versión |
 |---|---|
@@ -23,8 +23,9 @@ Fijadas en T-00 (2026-10-23).
 | Swashbuckle.AspNetCore | 10.3.1 |
 | xUnit / NSubstitute / Shouldly / coverlet.collector | xunit.v3.mtp-off 4.0.2 + xunit.runner.visualstudio 4.0.1 + Microsoft.NET.Test.Sdk 18.11.0 / 6.2.0 / 4.3.0 / 10.1.0 (ver nota 3) |
 | StyleCop.Analyzers | 1.2.0-beta.556 (ver nota 4) |
-| Imagen SQL Server | _pendiente T-01_ |
-| Imagen Keycloak | _pendiente T-01_ |
+| Imagen SQL Server | `mcr.microsoft.com/mssql/server:2022-CU27-GDR1-ubuntu-22.04` (ver nota 5) |
+| Imagen Keycloak | `quay.io/keycloak/keycloak:26.8.1` (ver nota 5) |
+| Imágenes .NET (Dockerfile) | build `mcr.microsoft.com/dotnet/sdk:10.0.402`, runtime `mcr.microsoft.com/dotnet/aspnet:10.0.13` (ver nota 6) |
 | System.Security.Cryptography.Pkcs *(pin transitivo)* | 10.0.13 (ver nota 2) |
 
 ### Notas sobre versiones
@@ -32,6 +33,8 @@ Fijadas en T-00 (2026-10-23).
 2. **Pin transitivo de seguridad:** SqlClient 6.1.7 arrastra `System.Security.Cryptography.Pkcs` 9.0.11 (GHSA-846f-f764-76mx, GHSA-2fmv-rv2c-59x7), y el build falla por `NU1903` con `TreatWarningsAsErrors`. Se fija 10.0.13 con `CentralPackageTransitivePinningEnabled`. No es tecnología nueva: es una librería de Microsoft que ya estaba en el grafo. Se puede eliminar cuando SqlClient incluya una versión corregida.
 3. **`xunit.v3.mtp-off`:** xUnit v3 4.x funciona por defecto sobre Microsoft Testing Platform, y el SDK de .NET 10 rechaza ejecutarlo con VSTest. La variante oficial `mtp-off` (el mismo xUnit v3) mantiene VSTest, de modo que `coverlet.collector` y `dotnet test --collect:"XPlat Code Coverage"` siguen funcionando.
 4. **StyleCop en beta:** la última estable (1.1.118, de 2019) da falsos positivos con C# 9–12 que el build trata como errores: SA1313 en *records* posicionales, SA1010 en *collection expressions* y SA1516 en *top-level statements*. La 1.2.0-beta.556 es la versión que usa la comunidad desde hace años. Las betas 1.3.x tenían solo unos días en el momento de elegir.
+5. **Etiquetas exactas de imagen:** `ARCH_SKELETON` §8 nombra las líneas (`mssql/server:2022`, `keycloak:26`), pero esas etiquetas no existen como tales. Se fija la última versión concreta de cada línea para que el arranque sea reproducible.
+6. **SDK de la imagen de build:** no hay imagen `sdk:10.0.108`. La `10.0.402` cumple `global.json` (`rollForward: latestFeature`). El runtime `aspnet:10.0.13` coincide con los paquetes `10.0.13`.
 
 ## Política de dependencias
 - Una dependencia nueva requiere un **ADR** y añadirla a la Tech Fence (la edita el humano).
