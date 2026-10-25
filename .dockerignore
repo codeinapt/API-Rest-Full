@@ -1,0 +1,14 @@
+**/bin/
+**/obj/
+**/TestResults/
+.git/
+.vs/
+.vscode/
+.idea/
+.claude/
+.sdap/
+docs/
+sdap-template/
+tests/
+*.pdf
+.env
