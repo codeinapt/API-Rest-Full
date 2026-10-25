@@ -13,7 +13,13 @@ Decisiones: ADR-0002, ADR-0009. Reglas: `.sdap/DOMAIN_LOGIC.md` RS-01 a RS-06 y 
 | Grupos | `/areas/FOOD`, `/areas/CLEAN`, `/areas/TOOLS` |
 | Mappers | *Audience* `inventory-api`; claim `areas` = último segmento del nombre de los grupos del usuario |
 
-**Usuarios de prueba** (solo desarrollo; contraseñas documentadas en el README):
+**Notas de implementación del realm** (T-02):
+- El realm se importa al arrancar (`start-dev --import-realm`) desde `keycloak/realm-inventory.json`. Si el realm ya existe, la importación no hace nada; para recargarlo hay que recrear el contenedor.
+- El JSON define también los client scopes de serie `basic` (claim `sub`) y `roles` (`realm_access.roles`). Cuando un realm declara `clientScopes`, Keycloak no crea los de serie, y sin estos dos el token no lleva ni `sub` ni roles. **No se deben borrar.**
+- Los usuarios tienen `email`, `firstName` y `lastName` porque el *user profile* por defecto de Keycloak 26 los exige. Sin ellos, el login se detiene en la pantalla "actualizar cuenta".
+- El *password grant* está desactivado (`directAccessGrantsEnabled: false`): los tokens solo se obtienen con Authorization Code + PKCE.
+
+**Usuarios de prueba** (solo desarrollo; contraseña común `Inventory123!`, documentada también en el README):
 
 | Usuario | Rol | Áreas |
 |---|---|---|
