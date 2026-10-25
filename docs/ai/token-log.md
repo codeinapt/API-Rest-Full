@@ -5,8 +5,8 @@ Evidencia de la gestión de tokens (métrica **TEI** de SDAP: tokens por línea 
 | Tarea | Fecha | Modelo | Tokens entrada | Tokens salida | Coste (USD) | Líneas netas (+/−) | Iteraciones hasta PASS | Notas |
 |---|---|---|---|---|---|---|---|---|
 | Inception + Capa 0 + Capa 1 | 2026-10-22 | Claude Opus | — | — | — | — | — | Fase de diseño en una sola sesión de diálogo; sin código |
-| T-00 | 2026-10-23 | Claude Opus 5.5 (auditor: Sonnet) | _pendiente `/cost`_ | _pendiente `/cost`_ | _pendiente `/cost`_ | +200 / −0 (aprox.) | 1 | PASS con 2 WARN de alcance; 3 incidencias de versiones resueltas empíricamente |
-| T-01 | 2026-10-25 | Claude Opus 5.5 (auditor: Sonnet) | _pendiente `/cost`_ | _pendiente `/cost`_ | _pendiente `/cost`_ | +100 / −0 (aprox.) | 1 | PASS; 1 ampliación de alcance aprobada (`.dockerignore`); healthcheck de la API corregido (dash sin `/dev/tcp`) |
+| T-00 | 2026-10-23 | Claude Opus 5.5 (auditor: Sonnet) | — | — | — | +200 / −0 (aprox.) | 1 | PASS con 2 WARN de alcance; 3 incidencias de versiones resueltas empíricamente |
+| T-01 | 2026-10-25 | Claude Opus 5.5 (auditor: Sonnet) | — | — | — | +100 / −0 (aprox.) | 1 | PASS; 1 ampliación de alcance aprobada (`.dockerignore`); healthcheck de la API corregido (dash sin `/dev/tcp`) |
 
 **Estrategias aplicadas:**
 - tareas atómicas con un payload mínimo (`13-how-to-add-features.md` §1);

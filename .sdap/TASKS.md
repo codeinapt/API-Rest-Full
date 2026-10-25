@@ -23,7 +23,7 @@
 - **Scope:** raíz (`*.sln`, `Directory.*.props`, `global.json`, `.editorconfig`), `src/*/*.csproj`, `tests/*/*.csproj`.
 - **Hecho cuando:** `dotnet build` sin warnings y `dotnet test` ejecuta 0 tests sin error. Reverse Sync: versiones en `docs/ai/01`.
 
-### [ ] T-01 · Docker y salud
+### [x] T-01 · Docker y salud
 - **Objetivo:**
   - `docker-compose.yml` (sqlserver, keycloak, api) con healthchecks y `depends_on: service_healthy`.
   - `Dockerfile` multi-stage de la API.
