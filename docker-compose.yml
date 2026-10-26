@@ -39,6 +39,8 @@ services:
       context: .
       dockerfile: src/Inventory.Api/Dockerfile
     environment:
+      # Development keeps JwtBearer from requiring HTTPS for the internal Keycloak metadata (docs/ai/10).
+      ASPNETCORE_ENVIRONMENT: Development
       INVENTORY_DB_CONNECTION: Server=sqlserver;Database=Inventory;User Id=sa;Password=${MSSQL_SA_PASSWORD};TrustServerCertificate=True
       AUTH_AUTHORITY: http://localhost:8180/realms/inventory
       AUTH_METADATA_ADDRESS: http://keycloak:8080/realms/inventory/.well-known/openid-configuration
