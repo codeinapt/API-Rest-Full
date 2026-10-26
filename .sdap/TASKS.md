@@ -41,7 +41,7 @@
 - **Hecho cuando:** un token de `supervisor.food` obtenido por PKCE contiene `aud: inventory-api`, `realm_access.roles: [supervisor]`, `areas: [FOOD]` y los scopes.
 - **Depende de:** T-01.
 
-### [ ] T-03 · Autenticación, políticas y Swagger
+### [x] T-03 · Autenticación, políticas y Swagger
 - **Objetivo:**
   - JwtBearer (metadata interna e issuer externo).
   - `KeycloakRolesClaimsTransformation`.
