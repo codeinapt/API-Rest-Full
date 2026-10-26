@@ -43,6 +43,15 @@ Decisiones: ADR-0002, ADR-0009. Reglas: `.sdap/DOMAIN_LOGIC.md` RS-01 a RS-06 y 
 ## Swagger
 Esquema de seguridad OAuth2 (`authorizationCode`) con los scopes `openid`, `inventory.read` e `inventory.write`; `UsePkce()`; `client_id` desde `SWAGGER_OAUTH_CLIENT_ID`.
 
+**Notas de implementación** (T-03):
+- Registro en `Api/Configuration`: `AuthenticationSetup`, `AuthorizationSetup` y `SwaggerSetup`. Las variables de entorno se leen al arrancar con `AuthenticationSettings.FromConfiguration` y `GetRequiredValue`; si falta una, la API no arranca (`InvalidOperationException`).
+- `MapInboundClaims = false`: las claims conservan el nombre del JWT (`sub`, `scope`, `realm_access`, `areas`). Los nombres están en `KeycloakClaimTypes`.
+- `KeycloakRolesClaimsTransformation` clona el principal y añade una claim `ClaimTypes.Role` por cada rol de `realm_access.roles`. Es idempotente, porque ASP.NET Core puede invocarla varias veces por petición.
+- Las políticas se definen en `Authorization/InventoryPolicies.cs` (`AddInventoryPolicies`). Todas exigen usuario autenticado. El scope se comprueba con `HasScope` (`ScopeClaimsPrincipalExtensions`), que trocea la claim `scope` por espacios y compara de forma exacta y ordinal.
+- `ClaimsCurrentUser.Subject` lanza `InvalidOperationException` si no hay `sub`, porque solo se usa tras una política. `Roles` y `AreaCodes` devuelven una lista vacía si no hay claims.
+- En `docker-compose.yml` la API corre con `ASPNETCORE_ENVIRONMENT=Development`, porque los metadatos internos (`http://keycloak:8080`) son HTTP.
+- Swagger UI se publica en todos los entornos (`/swagger`, anónimo): es el único cliente visual. Las URLs de autorización y de token se derivan de `AUTH_AUTHORITY` (`/protocol/openid-connect/auth` y `/token`).
+
 ## Prohibido
 - Leer el usuario o el área desde el body.
 - Secretos en el código o en `appsettings`.
