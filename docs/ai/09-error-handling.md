@@ -7,18 +7,37 @@ Catálogo canónico de códigos, estados HTTP y textos: `.sdap/DOMAIN_LOGIC.md` 
 |---|---|---|
 | `ValidationException` (FluentValidation) | Application | 400 + `errors` por campo |
 | `NotFoundException(ErrorCode, id)` | Application | 404 |
-| `ForbiddenException(ErrorCode)` | Application | 403 (`AREA_ACCESS_DENIED`) |
-| `DomainException(ErrorCode, ...)` | Domain | 409 |
+| `ForbiddenException(ErrorCode, params object[])` | Application | 403 (`AREA_ACCESS_DENIED`) |
+| `DomainException(ErrorCode, params object[])` | Domain | 409 |
 | `InvalidReferenceException(ErrorCode, id)` | Application | 422 |
 | Cualquier otra | — | 500 `INTERNAL_ERROR` |
 
 Cada excepción lleva un **`ErrorCode`**. El mapeador obtiene el status a partir del tipo de excepción, y el texto a partir de `ErrorMessages` según el código.
 
+- `ErrorCode` (`Domain/Common`) es un `enum` en PascalCase. El `code` público se deriva del nombre en `UPPER_SNAKE` (`InsufficientStock` → `INSUFFICIENT_STOCK`), así que **renombrar un valor del enum cambia el contrato**.
+- Las cuatro excepciones con código heredan de la base abstracta `InventoryException` (`Domain/Common`), que expone `Code` y `MessageArguments`. El `Message` de la excepción es el nombre del código, en inglés. Nunca se devuelve al cliente.
+- `MessageArguments` rellena los placeholders del texto **por posición** y en el orden de la plantilla, por ejemplo `new DomainException(ErrorCode.InsufficientStock, stock, quantity)`.
+
+### Argumentos por código (orden posicional)
+| Código | Argumentos |
+|---|---|
+| `AREA_ACCESS_DENIED` | `areaCode` |
+| `*_NOT_FOUND`, `AREA_INACTIVE`, `CATEGORY_INACTIVE`, `PRODUCT_INACTIVE`, `PRODUCT_ALREADY_ACTIVE`, `REFERENCED_*_INVALID`, `RELATED_MOVEMENT_INVALID` | `id` |
+| `AREA_CODE_ALREADY_EXISTS` | `code` |
+| `CATEGORY_NAME_ALREADY_EXISTS` | `name` |
+| `SKU_ALREADY_EXISTS` | `sku` |
+| `PRODUCT_HAS_STOCK` | `stock` |
+| `INSUFFICIENT_STOCK` | `stock`, `quantity` (en este orden) |
+| Resto | ninguno |
+
 ## Componentes
-- `ErrorMessages` (`Application/Common/Messages`): constantes `public const string` en español, con `{placeholders}` formateados por el mapeador. **Único archivo con español** (regla 1).
-- `ProblemDetailsMapper` (`Api/ErrorHandling`): convierte una excepción en `ProblemDetails` con `type`, `title`, `status`, `detail`, `code` y, en validación, `errors`. Es lógica pura y se prueba de forma unitaria.
-- `GlobalExceptionHandler : IExceptionHandler`: usa el mapeador, registra en el log (con nivel `Error` solo para los 500) y escribe `application/problem+json`.
-- 401 y 403 de autenticación y políticas: se personalizan los eventos de JwtBearer y `IAuthorizationMiddlewareResultHandler` para que también respondan con ProblemDetails (`UNAUTHORIZED`, `FORBIDDEN`).
+- `ErrorMessages` (`Application/Common/Messages`): constantes `public const string` en español. Los títulos llevan el sufijo `Title` y los detalles se llaman como el código. Los placeholders son **posicionales** (`{0}`, `{1}`) y el mapeador los formatea con `InvariantCulture`. **Único archivo con español** (regla 1). Por eso los tests comparan contra estas constantes y no contra literales.
+- `ErrorCatalog` + `ErrorText` (`Api/ErrorHandling`): relaciona cada `ErrorCode` con su título y su plantilla. Un test exige que todos los valores del enum tengan entrada.
+- `ProblemDetailsMapper` (`Api/ErrorHandling`, estático): convierte una excepción en `ProblemDetails` con `type` (`https://httpstatuses.io/{status}`), `title`, `status`, `detail`, `code` y, en validación, `errors` (`ValidationProblemDetails`, mensajes agrupados por `PropertyName` de FluentValidation). Expone `Map(Exception)`, `MapUnauthorized()` y `MapForbidden()`. Es lógica pura y se prueba de forma unitaria.
+- `ProblemDetailsResponseWriter`: fija el status y escribe `application/problem+json` con el tipo real del objeto, para no perder `errors`. No depende de la cabecera `Accept`.
+- `GlobalExceptionHandler : IExceptionHandler`: usa el mapeador y el writer. Registra en el log con nivel `Error` solo los 500 y con `Information` el resto. Necesita `AddProblemDetails()` y `app.UseExceptionHandler()` como primer middleware.
+- 401 y 403 de autenticación y políticas: `ProblemDetailsAuthorizationResultHandler : IAuthorizationMiddlewareResultHandler` delega en el handler por defecto, que hace el challenge o el forbid de JwtBearer y conserva `WWW-Authenticate`. Después escribe el ProblemDetails (`UNAUTHORIZED`, `FORBIDDEN`). Los eventos de JwtBearer no se tocan.
+- `ValidationBehavior<TMessage, TResponse>` (`Application/Common/Behaviors`): ejecuta en secuencia todos los `IValidator<TMessage>`, junta los fallos y lanza `FluentValidation.ValidationException`. Si no hay fallos, llama al handler.
 
 ## Reglas
 - Los handlers **no** capturan excepciones para devolver códigos HTTP: lanzan y el handler global traduce.

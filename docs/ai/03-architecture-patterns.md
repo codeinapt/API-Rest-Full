@@ -17,6 +17,7 @@ Las dependencias apuntan hacia `Domain`. `Application` define **puertos** (inter
 Controller → Mediator → ValidationBehavior (FluentValidation) → Handler
 ```
 - `ValidationBehavior` ejecuta todos los `IValidator<TRequest>` y lanza `ValidationException` (→ 400).
+- Registro en `Program.cs`: `AddMediator` con `ServiceLifetime.Scoped`, porque los handlers dependen de servicios *scoped* (`ICurrentUser`, `IUnitOfWork`), y `PipelineBehaviors = [typeof(ValidationBehavior<,>)]`. Los handlers se registran solos (source generator). Los validadores **no**: FluentValidation.DependencyInjectionExtensions no está en la Tech Fence, así que se registran a mano.
 - El controller **no** valida ni contiene lógica: traduce HTTP ↔ Command/Query.
 
 ## Dominio rico

@@ -9,8 +9,9 @@ Visión de alto nivel: `.sdap/ARCH_SKELETON.md` §5. Aquí se detalla **dónde v
   {Enum}.cs               Un enum por archivo
   Exceptions/{Name}Exception.cs
 Common/
-  DomainException.cs      Base; expone ErrorCode
-  ErrorCode.cs            Enum o constantes de los códigos de DOMAIN_LOGIC §6
+  InventoryException.cs   Base abstracta: Code (ErrorCode) + MessageArguments
+  DomainException.cs      Hereda de InventoryException (→ 409)
+  ErrorCode.cs            Enum de los códigos de DOMAIN_LOGIC §6
 ```
 
 ## Inventory.Application
@@ -53,7 +54,8 @@ DependencyInjection.cs
 ```
 Controllers/{Resource}Controller.cs
 Authorization/{Policy}Names.cs, ClaimsCurrentUser.cs, KeycloakRolesClaimsTransformation.cs
-ErrorHandling/GlobalExceptionHandler.cs, ProblemDetailsMapper.cs
+ErrorHandling/GlobalExceptionHandler.cs, ProblemDetailsMapper.cs, ErrorCatalog.cs, ErrorText.cs,
+              ProblemDetailsResponseWriter.cs, ProblemDetailsAuthorizationResultHandler.cs
 Configuration/{Area}Setup.cs         Extensiones de registro (Swagger, Auth, …)
 Program.cs
 Dockerfile
