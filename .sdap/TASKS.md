@@ -53,7 +53,7 @@
 - **Hecho cuando:** hay tests de la transformación de roles y de `ClaimsCurrentUser`, y el botón *Authorize* de Swagger obtiene un token.
 - **Depende de:** T-02.
 
-### [ ] T-04 · Manejo de errores y validación
+### [x] T-04 · Manejo de errores y validación
 - **Objetivo:**
   - `ErrorCode`, `DomainException` y las excepciones de aplicación.
   - `ErrorMessages` con **todo** el catálogo de `DOMAIN_LOGIC` §6.
