@@ -33,7 +33,7 @@ Esquema canónico: `.sdap/DATA_MINDMAP.md` §2.
 - **Inserción:** `INSERT ... OUTPUT inserted.<columnas> VALUES (...)` con `QuerySingleAsync<Entidad>`. Devuelve la entidad persistida con su `Id` de identidad, y el handler mapea esa instancia.
 - Los parámetros de columnas `VARCHAR` (`Code`, `Sku`) se envían como `DbString { IsAnsi = true, Length = <máximo> }`, igual que `IsUnicode(false)` en EF, para que se use el índice.
 - Repositorio de escritura: `internal sealed class {Entity}WriteRepository(UnitOfWork unitOfWork)`, registrado *scoped* en `Infrastructure/DependencyInjection.cs`. El SQL va en constantes `private const string` (*raw string literals*) y cada llamada usa `CommandDefinition` con `unitOfWork.Transaction` y el `CancellationToken`.
-- Puerto de escritura por entidad (ejemplo `IAreaWriteRepository`): `GetByIdForUpdateAsync` (carga la entidad `WITH (UPDLOCK, HOLDLOCK)` para serializar las reglas que dependen de otras tablas, p. ej. RA-03 frente a la creación de categorías), las comprobaciones (`ExistsActiveCodeAsync`, `CountActiveCategoriesAsync`), `InsertAsync(entity)` y `UpdateAsync(entity)`.
+- Puerto de escritura por entidad (ejemplo `IAreaWriteRepository`): `GetByIdForUpdateAsync` (carga la entidad `WITH (UPDLOCK, HOLDLOCK)` para serializar las reglas que dependen de otras tablas, p. ej. RA-03 frente a la creación de categorías), las comprobaciones (`ExistsActiveCodeAsync`, `CountActiveCategoriesAsync`), `InsertAsync(entity)` y `UpdateAsync(entity)`. `ICategoryWriteRepository` sigue la misma forma: `GetByIdForUpdateAsync`, `ExistsOtherActiveCategoryWithNameAsync(category)` (`... AND Id <> @Id`), `CountActiveProductsAsync`, `InsertAsync` y `UpdateAsync` (que también mueve la categoría al escribir `AreaId`). El área padre se bloquea con `IAreaWriteRepository.GetByIdForUpdateAsync`, que serializa la creación o el movimiento de una categoría frente a la desactivación del área (RA-03).
 - `InsertAsync` devuelve la entidad persistida materializada por Dapper desde `OUTPUT inserted.*`, para que la respuesta lleve el `Id` de identidad sin una segunda lectura.
 - Las columnas `VARCHAR` (`Code`, `Sku`) se envían como `DbString { IsAnsi = true, Length = ... }`, para evitar la conversión implícita y usar el índice.
 - **Siempre parametrizado** (`@Param`). Prohibido concatenar SQL.
@@ -44,7 +44,7 @@ Esquema canónico: `.sdap/DATA_MINDMAP.md` §2.
   WHERE Id = @Id AND IsActive = 1 AND Stock + @Delta >= 0;
   ```
 - Validación del padre en escrituras de catálogo: `SELECT ... FROM Categories WITH (UPDLOCK, HOLDLOCK) WHERE Id = @Id AND IsActive = 1`.
-- Las violaciones de índice único (`SqlException.Number` 2601/2627) se traducen a `*_ALREADY_EXISTS`: el repositorio las captura con `catch ... when` y lanza `DomainException` (p. ej. `AreaCodeAlreadyExists` con el código). Es la segunda barrera: el handler ya comprobó antes la unicidad con `ExistsActive*Async`.
+- Las violaciones de índice único (`SqlException.Number` 2601/2627) se traducen a `*_ALREADY_EXISTS`: el repositorio las captura con `catch ... when` y lanza `DomainException` (p. ej. `AreaCodeAlreadyExists` con el código). Si el `UPDATE` puede cambiar la columna única (el `Name` de una categoría), `UpdateAsync` también la traduce (`CategoryNameAlreadyExists`). Es la segunda barrera: el handler ya comprobó antes la unicidad con `ExistsActive*Async`.
 - Los enums se envían como `(byte)` para encajar con `TINYINT`.
 
 ## Paginación
