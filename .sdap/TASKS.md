@@ -114,7 +114,7 @@
 - **Scope:** `D/Categories/*`, tests.
 - **Depende de:** T-04.
 
-### [ ] T-11 · Commands de Categoría (CU-05, CU-06, CU-07)
+### [x] T-11 · Commands de Categoría (CU-05, CU-06, CU-07)
 - **Objetivo:** commands con validación del área padre (`UPDLOCK, HOLDLOCK`) y desactivación condicionada a no tener productos activos.
 - **Payload:** `.sdap/USE_CASES.md` CU-05–07, SEQ-03, casos límite de `INTERFACE_FLOW`.
 - **Scope:** `A/Categories/Commands/*`, `A/Categories/Ports/ICategoryWriteRepository.cs`, `A/Categories/Dtos/*`, `I/Persistence/Write/CategoryWriteRepository.cs`, tests.
