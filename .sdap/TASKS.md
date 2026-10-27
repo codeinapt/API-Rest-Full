@@ -73,7 +73,7 @@
 - **Hecho cuando:** al arrancar en Docker se crea el esquema completo y un segundo arranque no reaplica nada.
 - **Depende de:** T-01.
 
-### [ ] T-06 · Infraestructura de persistencia base
+### [x] T-06 · Infraestructura de persistencia base
 - **Objetivo:**
   - `InventoryReadDbContext` (NoTracking, configuraciones sin relaciones FK).
   - `SqlConnectionFactory`, `IUnitOfWork` / `UnitOfWork`, `IClock` / `SystemClock`.
