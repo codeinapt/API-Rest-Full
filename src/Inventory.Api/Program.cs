@@ -7,6 +7,7 @@ using Inventory.Application.Areas.Commands.UpdateArea;
 using Inventory.Application.Areas.Queries.GetAreas;
 using Inventory.Application.Categories.Commands.CreateCategory;
 using Inventory.Application.Categories.Commands.UpdateCategory;
+using Inventory.Application.Categories.Queries.GetCategories;
 using Inventory.Application.Common.Behaviors;
 using Inventory.Infrastructure;
 using Inventory.Infrastructure.Migrations;
@@ -32,6 +33,7 @@ builder.Services.AddSingleton<IValidator<UpdateAreaCommand>, UpdateAreaValidator
 builder.Services.AddSingleton<IValidator<GetAreasQuery>, GetAreasValidator>();
 builder.Services.AddSingleton<IValidator<CreateCategoryCommand>, CreateCategoryValidator>();
 builder.Services.AddSingleton<IValidator<UpdateCategoryCommand>, UpdateCategoryValidator>();
+builder.Services.AddSingleton<IValidator<GetCategoriesQuery>, GetCategoriesValidator>();
 builder.Services.AddInventoryAuthentication(authenticationSettings, builder.Environment);
 builder.Services.AddInventoryAuthorization();
 builder.Services.AddInventorySwagger(authenticationSettings);
