@@ -98,7 +98,7 @@
 - **Scope:** `A/Areas/Commands/*`, `A/Areas/Ports/IAreaWriteRepository.cs`, `A/Areas/Dtos/*`, `I/Persistence/Write/AreaWriteRepository.cs`, tests.
 - **Depende de:** T-06, T-07.
 
-### [ ] T-09 · Queries de Área (CU-04) y `AreasController` (E01–E05)
+### [x] T-09 · Queries de Área (CU-04) y `AreasController` (E01–E05)
 - **Objetivo:** queries con EF, `IAreaReadRepository` y el controller con sus políticas y códigos de respuesta documentados en Swagger.
 - **Payload:** `.sdap/USE_CASES.md` CU-04, `.sdap/SCREEN_FLOW.md` E01–E05, SEQ-02.
 - **Scope:** `A/Areas/Queries/*`, `A/Areas/Ports/IAreaReadRepository.cs`, `I/Persistence/Read/AreaReadRepository.cs`, `W/Controllers/AreasController.cs`, tests.
