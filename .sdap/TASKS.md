@@ -108,7 +108,7 @@
 
 ## Fase 2 — Categorías
 
-### [ ] T-10 · Dominio `Category` (TDD)
+### [x] T-10 · Dominio `Category` (TDD)
 - **Objetivo:** entidad `Category` con las reglas RC-01 a RC-04.
 - **Payload:** `.sdap/DOMAIN_LOGIC.md` §3.2.
 - **Scope:** `D/Categories/*`, tests.
