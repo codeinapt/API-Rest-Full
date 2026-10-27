@@ -40,13 +40,15 @@ Common/
 ```
 Persistence/
   Read/InventoryReadDbContext.cs
-  Read/Configurations/{Entity}Configuration.cs
+  Read/Models/{Table}Row.cs           Filas de solo lectura (AreaRow, CategoryRow, ProductRow, InventoryMovementRow)
+  Read/Configurations/{Table}RowConfiguration.cs, UtcDateTimeConverter.cs
   Read/{Entity}ReadRepository.cs
   Write/SqlConnectionFactory.cs, UnitOfWork.cs
   Write/{Entity}WriteRepository.cs
 Migrations/
   Scripts/NNNN_Description.sql       Recurso embebido
   DatabaseMigrator.cs
+Common/SystemClock.cs                 Implementación de IClock
 DependencyInjection.cs
 ```
 
