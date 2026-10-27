@@ -7,7 +7,7 @@ Decisión: ADR-0012.
 |---|---|---|---|
 | Unitario: dominio | `Inventory.Domain.Tests` | Métodos de entidades y fábricas; cada regla RA, RC, RP y RM | Ninguna |
 | Unitario: aplicación | `Inventory.Application.Tests` | Handlers (orquestación, errores), validadores, `AreaAccessPolicy` | NSubstitute para los puertos |
-| Unitario: API | `Inventory.Api.Tests` | `ProblemDetailsMapper`, `ClaimsCurrentUser`, `KeycloakRolesClaimsTransformation` | Ninguna |
+| Unitario: API | `Inventory.Api.Tests` | `ProblemDetailsMapper`, `InvalidModelStateResponseFactory`, `ClaimsCurrentUser`, `KeycloakRolesClaimsTransformation`, controllers (resultado HTTP, mensaje enviado y política de cada acción por reflexión) | NSubstitute para `ISender` |
 | Integración *(extra)* | `Inventory.IntegrationTests` | SQL de Dapper (atomicidad, concurrencia), consultas EF, scripts DbUp | Testcontainers (SQL Server) |
 
 ## TDD

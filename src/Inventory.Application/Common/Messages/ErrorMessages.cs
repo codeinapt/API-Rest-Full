@@ -36,4 +36,6 @@ public static class ErrorMessages
     public const string AreaNameInvalid = "El nombre debe tener entre 3 y 100 caracteres.";
     public const string PageOutOfRange = "La página debe ser mayor o igual que 1.";
     public const string PageSizeOutOfRange = "El tamaño de página debe estar entre 1 y 100.";
+    public const string StatusInvalid = "El estado debe ser active, inactive o all.";
+    public const string FieldValueInvalid = "El valor no es válido.";
 }

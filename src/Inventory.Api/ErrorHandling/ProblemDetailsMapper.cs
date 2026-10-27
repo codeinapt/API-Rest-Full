@@ -2,8 +2,10 @@ using System.Globalization;
 using System.Text.RegularExpressions;
 using FluentValidation;
 using Inventory.Application.Common.Exceptions;
+using Inventory.Application.Common.Messages;
 using Inventory.Domain.Common;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Inventory.Api.ErrorHandling;
 
@@ -33,6 +35,15 @@ public static partial class ProblemDetailsMapper
     public static ProblemDetails MapForbidden()
     {
         return Describe(new ProblemDetails(), StatusCodes.Status403Forbidden, ErrorCode.Forbidden);
+    }
+
+    public static ValidationProblemDetails MapInvalidModelState(ModelStateDictionary modelState)
+    {
+        var errors = modelState
+            .Where(entry => entry.Value is { Errors.Count: > 0 })
+            .ToDictionary(entry => entry.Key, _ => new[] { ErrorMessages.FieldValueInvalid });
+
+        return Describe(new ValidationProblemDetails(errors), StatusCodes.Status400BadRequest, ErrorCode.ValidationError);
     }
 
     private static ValidationProblemDetails MapValidation(ValidationException exception)

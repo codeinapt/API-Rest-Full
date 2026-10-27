@@ -18,6 +18,8 @@ Esquema canónico: `.sdap/DATA_MINDMAP.md` §2.
 - Las configuraciones (`IEntityTypeConfiguration<T>`) mapean tablas y columnas existentes. **No** se declaran relaciones de navegación con FK; los *joins* se escriben explícitos en LINQ.
 - `HasQueryFilter(x => x.IsActive)` **no** se usa globalmente: el filtro `status` (`active | inactive | all`) se aplica de forma explícita en cada consulta, porque los detalles por `id` también devuelven inactivos.
 - Proyección directa a DTO en el `Select`. Paginación con `Skip/Take`, más `CountAsync` sobre la misma consulta filtrada.
+- Repositorio de lectura: `internal sealed class {Entity}ReadRepository(InventoryReadDbContext context) : I{Entity}ReadRepository`, registrado *scoped* en `DependencyInjection.cs`. La proyección es un `private static readonly Expression<Func<{Table}Row, {Entity}Response>> ProjectToResponse`, compartida por el detalle y el listado. El filtro `status` es un `switch` privado (`FilterByStatus`) sobre `IQueryable<{Table}Row>`.
+- Todo listado paginado tiene un orden **determinista** que termina en `Id` como desempate. Áreas: `Code`, `Id` (un `Code` puede repetirse entre áreas inactivas).
 - `sortBy` se resuelve con una lista blanca (`switch` a expresiones), nunca con texto dinámico.
 
 ## Dapper (escrituras)
@@ -47,7 +49,8 @@ Esquema canónico: `.sdap/DATA_MINDMAP.md` §2.
 
 ## Paginación
 - `PaginationParameters` (`Application/Common/Pagination`): `record` no sellado con `Page` (1) y `PageSize` (20). Los `*QueryParameters` heredan de él. `CalculateItemsToSkip()` da el valor de `Skip`.
-- `PaginationParametersValidator`: `Page ≥ 1` y `PageSize` entre 1 y 100, con `ErrorMessages.PageOutOfRange` y `ErrorMessages.PageSizeOutOfRange`. Los validadores de cada query lo reutilizan con `Include(new PaginationParametersValidator())`.
+- `PaginationParametersValidator`: `Page ≥ 1` y `PageSize` entre 1 y 100, con `ErrorMessages.PageOutOfRange` y `ErrorMessages.PageSizeOutOfRange`. Los validadores de cada query lo reutilizan con `RuleFor(query => query.Parameters).SetValidator(new PaginationParametersValidator()).OverridePropertyName(string.Empty)` (ver `03-architecture-patterns.md`, Queries).
+- `StatusFilter` (`Active`, `Inactive`, `All`) es el tipo del filtro `status` de áreas, categorías y productos.
 - `PagedResponse<T>(items, pagination, totalCount)` calcula `TotalPages` redondeando hacia arriba (0 si no hay elementos).
 
 ## DbUp

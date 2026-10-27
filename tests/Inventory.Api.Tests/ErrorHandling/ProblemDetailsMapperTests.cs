@@ -6,6 +6,7 @@ using Inventory.Application.Common.Exceptions;
 using Inventory.Application.Common.Messages;
 using Inventory.Domain.Common;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Inventory.Api.Tests.ErrorHandling;
 
@@ -67,6 +68,26 @@ public sealed class ProblemDetailsMapperTests
     }
 
     [Fact]
+    public void MapInvalidModelState_Returns400WithValidationCodeAndTexts()
+    {
+        var problemDetails = ProblemDetailsMapper.MapInvalidModelState(CreateInvalidModelState());
+        problemDetails.Status.ShouldBe(400);
+        problemDetails.Type.ShouldBe("https://httpstatuses.io/400");
+        problemDetails.Extensions["code"].ShouldBe("VALIDATION_ERROR");
+        problemDetails.Title.ShouldBe(ErrorMessages.ValidationErrorTitle);
+        problemDetails.Detail.ShouldBe(ErrorMessages.ValidationError);
+    }
+
+    [Fact]
+    public void MapInvalidModelState_ReplacesFrameworkMessagesWithOneSpanishMessagePerInvalidField()
+    {
+        var errors = ProblemDetailsMapper.MapInvalidModelState(CreateInvalidModelState()).Errors;
+        errors.Keys.ShouldBe(["Page", "Status"], ignoreOrder: true);
+        errors["Page"].ShouldBe([ErrorMessages.FieldValueInvalid]);
+        errors["Status"].ShouldBe([ErrorMessages.FieldValueInvalid]);
+    }
+
+    [Fact]
     public void Map_WhenExceptionIsUnexpected_Returns500WithInternalErrorCodeAndTexts()
     {
         var problemDetails = ProblemDetailsMapper.Map(new InvalidOperationException("Connection string leaked"));
@@ -102,6 +123,17 @@ public sealed class ProblemDetailsMapperTests
     private static string FormatDetail(string detailTemplate, InventoryException exception)
     {
         return string.Format(CultureInfo.InvariantCulture, detailTemplate, exception.MessageArguments.ToArray());
+    }
+
+    private static ModelStateDictionary CreateInvalidModelState()
+    {
+        var modelState = new ModelStateDictionary();
+        modelState.AddModelError("Page", "The value 'abc' is not valid for Page.");
+        modelState.AddModelError("Status", "The value 'foo' is not valid.");
+        modelState.AddModelError("Status", "The Status field is invalid.");
+        modelState.SetModelValue("PageSize", "20", "20");
+
+        return modelState;
     }
 
     private static ValidationException CreateValidationException()
