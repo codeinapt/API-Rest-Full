@@ -20,6 +20,7 @@ Decisión: ADR-0012.
 - **Estructura AAA** (Arrange, Act, Assert). La línea en blanco entre bloques **no** está permitida (regla 2): los bloques se separan extrayendo builders o *helpers* si hace falta claridad.
 - **Un comportamiento por test.** `[Theory]` para variaciones del mismo comportamiento.
 - **Builders de prueba** (`ProductBuilder`) para no repetir datos válidos.
+- **`Id` persistido:** las entidades tienen `Id` con *setter* privado (lo asigna Dapper). En los tests de dominio, `PersistedIdentity.Assign(entity, id)` (`tests/Inventory.Domain.Tests/Common/`) simula ese `Id`, para que los asserts sobre `AreaId` o `MessageArguments` comprueben un valor real y no `0`.
 - **Asserts con Shouldly** (`result.ShouldBe(...)`, `Should.Throw<DomainException>(...)`), comprobando también el `ErrorCode`.
 - **Tiempo:** `IClock` simulado.
 
