@@ -32,4 +32,6 @@ public static class ErrorMessages
     public const string ReferencedCategoryInvalid = "La categoría {0} no existe o está inactiva.";
     public const string RelatedMovementInvalid = "El movimiento {0} no existe o no pertenece al producto.";
     public const string InternalError = "Ocurrió un error inesperado.";
+    public const string PageOutOfRange = "La página debe ser mayor o igual que 1.";
+    public const string PageSizeOutOfRange = "El tamaño de página debe estar entre 1 y 100.";
 }
