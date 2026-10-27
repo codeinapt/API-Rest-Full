@@ -86,7 +86,7 @@
 
 ## Fase 1 — Áreas
 
-### [ ] T-07 · Dominio `Area` (TDD)
+### [x] T-07 · Dominio `Area` (TDD)
 - **Objetivo:** entidad `Area` con `Create`, `Rename` y `Deactivate`, más las reglas RA-01 a RA-04 en el dominio.
 - **Payload:** `.sdap/DOMAIN_LOGIC.md` §3.1 y §5.2, `.sdap/DATA_MINDMAP.md` §3.
 - **Scope:** `D/Areas/*`, `tests/Inventory.Domain.Tests/Areas/*`.
