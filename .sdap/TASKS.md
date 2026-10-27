@@ -129,7 +129,7 @@
 
 ## Fase 3 — Productos
 
-### [ ] T-13 · Dominio `Product` (TDD)
+### [x] T-13 · Dominio `Product` (TDD)
 - **Objetivo:** `Create`, `UpdateDetails`, `ChangeCategory`, `Delete`, `Deactivate`, `Reactivate` e `IsLowStock`, con las reglas RP-01 a RP-14 y la máquina de estados §5.1.
 - **Payload:** `.sdap/DOMAIN_LOGIC.md` §2, §3.3 y §5.1.
 - **Scope:** `D/Products/*`, tests.
