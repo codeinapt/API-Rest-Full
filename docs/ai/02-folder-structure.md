@@ -7,6 +7,7 @@ Visión de alto nivel: `.sdap/ARCH_SKELETON.md` §5. Aquí se detalla **dónde v
 {Module}/                 Areas | Categories | Products | Movements
   {Entity}.cs             Entidad con sus métodos de dominio
   {Enum}.cs               Un enum por archivo
+  {Entity}{Concept}.cs    Record de dominio que agrupa datos de entrada (ProductDetails, ProductDeactivation)
   Exceptions/{Name}Exception.cs
 Common/
   InventoryException.cs   Base abstracta: Code (ErrorCode) + MessageArguments
