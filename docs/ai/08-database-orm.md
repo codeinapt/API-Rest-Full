@@ -12,6 +12,9 @@ Esquema canónico: `.sdap/DATA_MINDMAP.md` §2.
 - **Esquema solo con DbUp.** Nada de migraciones EF ni `EnsureCreated`.
 
 ## EF Core (lecturas)
+- EF **no** mapea las entidades de dominio, sino filas de solo lectura propias de la persistencia (`Persistence/Read/Models/{Table}Row`, `internal`), una por tabla, con las columnas de `DATA_MINDMAP` §2. Los enums se leen como `byte` y el repositorio los convierte al proyectar. Así el dominio no necesita constructores pensados para EF.
+- `InventoryReadDbContext` (`internal`) fija `NoTracking` en `OnConfiguring`, aplica las configuraciones del ensamblado y convierte todo `DateTime` a `DateTimeKind.Utc` (`UtcDateTimeConverter`). `SaveChanges` y `SaveChangesAsync` lanzan `InvalidOperationException`.
+- Las configuraciones fijan tabla, clave, longitudes e `IsUnicode(false)` en las columnas `VARCHAR` (`Code`, `Sku`), para que los parámetros no se envíen como `nvarchar` y se usen los índices.
 - Las configuraciones (`IEntityTypeConfiguration<T>`) mapean tablas y columnas existentes. **No** se declaran relaciones de navegación con FK; los *joins* se escriben explícitos en LINQ.
 - `HasQueryFilter(x => x.IsActive)` **no** se usa globalmente: el filtro `status` (`active | inactive | all`) se aplica de forma explícita en cada consulta, porque los detalles por `id` también devuelven inactivos.
 - Proyección directa a DTO en el `Select`. Paginación con `Skip/Take`, más `CountAsync` sobre la misma consulta filtrada.
@@ -20,6 +23,9 @@ Esquema canónico: `.sdap/DATA_MINDMAP.md` §2.
 ## Dapper (escrituras)
 - `SqlConnectionFactory` crea la conexión a partir de `INVENTORY_DB_CONNECTION`.
 - `IUnitOfWork` abre la conexión y la transacción. Los repositorios de escritura reciben la conexión y la transacción del `UnitOfWork`.
+  - Puerto (`Application`): `BeginTransactionAsync(ct)` y `CommitAsync(ct)`.
+  - `UnitOfWork` (`Infrastructure`, *scoped*, `internal`) expone `Connection` y `Transaction` a los repositorios de escritura, que dependen de la clase concreta. Usarlos antes de `BeginTransactionAsync`, o empezar dos transacciones, lanza `InvalidOperationException`.
+  - **Rollback:** si el handler lanza antes de `CommitAsync`, el `DisposeAsync` del ámbito libera la `SqlTransaction` sin confirmar y SQL Server la revierte. Los handlers no necesitan `try/catch`.
 - **Siempre parametrizado** (`@Param`). Prohibido concatenar SQL.
 - Las sentencias críticas son **condicionales** y se comprueban las filas afectadas:
   ```sql
@@ -30,6 +36,11 @@ Esquema canónico: `.sdap/DATA_MINDMAP.md` §2.
 - Validación del padre en escrituras de catálogo: `SELECT ... FROM Categories WITH (UPDLOCK, HOLDLOCK) WHERE Id = @Id AND IsActive = 1`.
 - Las violaciones de índice único (`SqlException.Number` 2601/2627) se traducen a `*_ALREADY_EXISTS`.
 - Los enums se envían como `(byte)` para encajar con `TINYINT`.
+
+## Paginación
+- `PaginationParameters` (`Application/Common/Pagination`): `record` no sellado con `Page` (1) y `PageSize` (20). Los `*QueryParameters` heredan de él. `CalculateItemsToSkip()` da el valor de `Skip`.
+- `PaginationParametersValidator`: `Page ≥ 1` y `PageSize` entre 1 y 100, con `ErrorMessages.PageOutOfRange` y `ErrorMessages.PageSizeOutOfRange`. Los validadores de cada query lo reutilizan con `Include(new PaginationParametersValidator())`.
+- `PagedResponse<T>(items, pagination, totalCount)` calcula `TotalPages` redondeando hacia arriba (0 si no hay elementos).
 
 ## DbUp
 - Scripts en `Infrastructure/Migrations/Scripts/NNNN_Description.sql` como **recurso embebido**, ejecutados en orden por nombre.
