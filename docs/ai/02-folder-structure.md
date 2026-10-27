@@ -25,13 +25,15 @@ Common/
     {Get...}Query.cs
     {Get...}Handler.cs
     {Get...}Validator.cs              (si recibe parámetros)
+    {Entity}QueryParameters.cs        (en la carpeta del listado, p. ej. Queries/GetAreas/)
   Dtos/{Name}Request.cs | {Name}Response.cs
   Ports/I{Entity}ReadRepository.cs | I{Entity}WriteRepository.cs
 Common/
   Behaviors/ValidationBehavior.cs
   Interfaces/ICurrentUser.cs, IClock.cs, IUnitOfWork.cs
   Exceptions/                         Excepciones de aplicación (NotFound, Forbidden…)
-  Pagination/PagedResponse.cs, PaginationParameters.cs
+  Pagination/PagedResponse.cs, PaginationParameters.cs, PaginationParametersValidator.cs,
+             StatusFilter.cs          (filtro status compartido: Active | Inactive | All)
   Messages/ErrorMessages.cs           ÚNICO lugar con texto en español
   Authorization/AreaAccessPolicy.cs
 ```

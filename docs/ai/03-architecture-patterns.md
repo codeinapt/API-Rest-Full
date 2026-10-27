@@ -27,6 +27,20 @@ Controller → Mediator → ValidationBehavior (FluentValidation) → Handler
 - Cargar la entidad o lanzar `NotFoundException` se comparte en una extensión `internal` del puerto: `Application/{Module}/Commands/{Entity}WriteRepositoryExtensions.cs` (`GetExistingByIdForUpdateAsync`).
 - El controller **no** valida ni contiene lógica: traduce HTTP ↔ Command/Query.
 
+## Queries
+- Una query lleva su objeto de parámetros, como un Command lleva su Request: `record GetAreasQuery(AreaQueryParameters Parameters) : IRequest<PagedResponse<AreaResponse>>`; el detalle, solo el id: `record GetAreaByIdQuery(int AreaId) : IRequest<AreaResponse>`.
+- `{Entity}QueryParameters` es un `sealed record` que hereda de `PaginationParameters` y añade sus filtros. `Status` es `StatusFilter` (`Common/Pagination`) con valor por defecto `Active`.
+- El handler delega en el puerto de lectura (`I{Entity}ReadRepository`), que devuelve ya el DTO o el `PagedResponse<T>`. El detalle resuelve el «no existe» en el handler: `area ?? throw new NotFoundException(ErrorCode.AreaNotFound, id)`. El detalle por `id` devuelve también los inactivos.
+- Validador del listado (`Get{Entities}Validator : AbstractValidator<Get{Entities}Query>`): reutiliza la paginación con `RuleFor(query => query.Parameters).SetValidator(new PaginationParametersValidator()).OverridePropertyName(string.Empty)`. El `OverridePropertyName(string.Empty)` quita el prefijo `Parameters.` de FluentValidation, para que las claves de `errors` sean `Page` y `PageSize`. Los filtros propios usan `OverridePropertyName(nameof({Entity}QueryParameters.X))` y `IsInEnum()` en los enums (`ErrorMessages.StatusInvalid`).
+
+## Controllers
+- `[ApiController]`, `[Route("api/v1/{recurso}")]`, `sealed`, constructor primario con `ISender` de Mediator. Las acciones se llaman como el caso de uso sin sufijo `Async` (`GetAreas`, `GetAreaById`, `CreateArea`, `UpdateArea`, `DeactivateArea`), porque `CreatedAtAction(nameof(GetAreaById), …)` usa el nombre de la acción y MVC quita el sufijo `Async`.
+- Cada acción lleva `[Authorize(Policy = PolicyNames.X)]` según `SCREEN_FLOW` §3. Un test por reflexión comprueba la política de cada acción.
+- Rutas con id: `{id:int}`. Listados: `[FromQuery] {Entity}QueryParameters parameters`.
+- Respuestas: `Ok(dto)` en lecturas; `CreatedAtAction(nameof(Get{Entity}ById), new { id }, dto)` en creaciones (201 + `Location`); `NoContent()` en `PUT` y `DELETE`.
+- Swagger: `[ProducesResponseType<T>(status)]` por cada código de la fila de `SCREEN_FLOW` §3 (`ValidationProblemDetails` para 400, `ProblemDetails` para 404/409/422). 401 y 403 se declaran a nivel de clase. No se usa `[Produces]`: su filtro sobrescribiría el `application/problem+json` de los 400 de *model binding*.
+- JSON: `JsonStringEnumConverter` en `AddControllers().AddJsonOptions(...)` (enums como texto, `DATA_MINDMAP` §4). En la *query string* los enums se enlazan sin distinguir mayúsculas (`status=active`).
+
 ## Dominio rico
 - Las entidades exponen métodos con intención (`product.Deactivate(deactivation)`) y protegen sus invariantes, lanzando `DomainException` con su `ErrorCode`.
 - Las fábricas de movimiento (`InventoryMovement.CreateOutbound(...)`) aplican RM-01, RM-03 y RM-08 con el snapshot del producto.
