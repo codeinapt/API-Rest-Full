@@ -20,6 +20,7 @@ public static class DependencyInjection
         services.AddSingleton(new SqlConnectionFactory(databaseConnectionString));
         services.AddScoped<UnitOfWork>();
         services.AddScoped<IUnitOfWork>(serviceProvider => serviceProvider.GetRequiredService<UnitOfWork>());
+        services.AddScoped<IAreaReadRepository, AreaReadRepository>();
         services.AddScoped<IAreaWriteRepository, AreaWriteRepository>();
 
         return services;

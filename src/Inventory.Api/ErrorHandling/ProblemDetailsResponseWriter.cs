@@ -4,7 +4,7 @@ namespace Inventory.Api.ErrorHandling;
 
 public static class ProblemDetailsResponseWriter
 {
-    private const string ProblemJsonContentType = "application/problem+json";
+    public const string ProblemJsonContentType = "application/problem+json";
 
     public static Task WriteAsync(HttpContext httpContext, ProblemDetails problemDetails, CancellationToken cancellationToken)
     {
