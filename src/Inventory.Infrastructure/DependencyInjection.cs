@@ -23,6 +23,7 @@ public static class DependencyInjection
         services.AddScoped<IUnitOfWork>(serviceProvider => serviceProvider.GetRequiredService<UnitOfWork>());
         services.AddScoped<IAreaReadRepository, AreaReadRepository>();
         services.AddScoped<IAreaWriteRepository, AreaWriteRepository>();
+        services.AddScoped<ICategoryReadRepository, CategoryReadRepository>();
         services.AddScoped<ICategoryWriteRepository, CategoryWriteRepository>();
 
         return services;

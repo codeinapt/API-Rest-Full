@@ -120,7 +120,7 @@
 - **Scope:** `A/Categories/Commands/*`, `A/Categories/Ports/ICategoryWriteRepository.cs`, `A/Categories/Dtos/*`, `I/Persistence/Write/CategoryWriteRepository.cs`, tests.
 - **Depende de:** T-08, T-10.
 
-### [ ] T-12 · Queries de Categoría (CU-08) y `CategoriesController` (E06–E10)
+### [x] T-12 · Queries de Categoría (CU-08) y `CategoriesController` (E06–E10)
 - **Payload:** `.sdap/USE_CASES.md` CU-08, `.sdap/SCREEN_FLOW.md` E06–E10.
 - **Scope:** `A/Categories/Queries/*`, `I/Persistence/Read/CategoryReadRepository.cs`, `W/Controllers/CategoriesController.cs`, tests.
 - **Depende de:** T-09, T-11.
