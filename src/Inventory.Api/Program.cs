@@ -1,5 +1,8 @@
+using FluentValidation;
 using Inventory.Api.Configuration;
 using Inventory.Api.ErrorHandling;
+using Inventory.Application.Areas.Commands.CreateArea;
+using Inventory.Application.Areas.Commands.UpdateArea;
 using Inventory.Application.Common.Behaviors;
 using Inventory.Infrastructure;
 using Inventory.Infrastructure.Migrations;
@@ -18,6 +21,8 @@ builder.Services.AddMediator(options =>
     options.ServiceLifetime = ServiceLifetime.Scoped;
     options.PipelineBehaviors = [typeof(ValidationBehavior<,>)];
 });
+builder.Services.AddSingleton<IValidator<CreateAreaCommand>, CreateAreaValidator>();
+builder.Services.AddSingleton<IValidator<UpdateAreaCommand>, UpdateAreaValidator>();
 builder.Services.AddInventoryAuthentication(authenticationSettings, builder.Environment);
 builder.Services.AddInventoryAuthorization();
 builder.Services.AddInventorySwagger(authenticationSettings);

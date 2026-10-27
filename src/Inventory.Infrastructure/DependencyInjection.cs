@@ -1,3 +1,4 @@
+using Inventory.Application.Areas.Ports;
 using Inventory.Application.Common.Interfaces;
 using Inventory.Infrastructure.Common;
 using Inventory.Infrastructure.Migrations;
@@ -19,6 +20,7 @@ public static class DependencyInjection
         services.AddSingleton(new SqlConnectionFactory(databaseConnectionString));
         services.AddScoped<UnitOfWork>();
         services.AddScoped<IUnitOfWork>(serviceProvider => serviceProvider.GetRequiredService<UnitOfWork>());
+        services.AddScoped<IAreaWriteRepository, AreaWriteRepository>();
 
         return services;
     }
