@@ -35,6 +35,10 @@ public static class ErrorMessages
     public const string AreaCodeInvalid = "El código debe tener entre 2 y 10 letras mayúsculas (A-Z).";
     public const string AreaNameInvalid = "El nombre debe tener entre 3 y 100 caracteres.";
     public const string CategoryNameInvalid = "El nombre debe tener entre 3 y 100 caracteres.";
+    public const string ProductSkuInvalid = "El SKU debe tener entre 3 y 50 caracteres: letras mayúsculas (A-Z), dígitos o guiones.";
+    public const string ProductNameInvalid = "El nombre debe tener entre 3 y 150 caracteres.";
+    public const string ProductDescriptionInvalid = "La descripción no puede superar los 1000 caracteres.";
+    public const string MinimumStockInvalid = "El stock mínimo debe ser mayor o igual que 0.";
     public const string PageOutOfRange = "La página debe ser mayor o igual que 1.";
     public const string PageSizeOutOfRange = "El tamaño de página debe estar entre 1 y 100.";
     public const string StatusInvalid = "El estado debe ser active, inactive o all.";
