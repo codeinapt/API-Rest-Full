@@ -92,7 +92,7 @@
 - **Scope:** `D/Areas/*`, `tests/Inventory.Domain.Tests/Areas/*`.
 - **Depende de:** T-04.
 
-### [ ] T-08 · Commands de Área (CU-01, CU-02, CU-03)
+### [x] T-08 · Commands de Área (CU-01, CU-02, CU-03)
 - **Objetivo:** commands, validadores, handlers y `IAreaWriteRepository` + implementación Dapper.
 - **Payload:** `.sdap/USE_CASES.md` CU-01–03, `.sdap/INTERFACE_FLOW.md` SEQ-03, DTOs de área.
 - **Scope:** `A/Areas/Commands/*`, `A/Areas/Ports/IAreaWriteRepository.cs`, `A/Areas/Dtos/*`, `I/Persistence/Write/AreaWriteRepository.cs`, tests.
