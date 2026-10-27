@@ -23,6 +23,9 @@ Controller → Mediator → ValidationBehavior (FluentValidation) → Handler
 ## Dominio rico
 - Las entidades exponen métodos con intención (`product.Deactivate(deactivation)`) y protegen sus invariantes, lanzando `DomainException` con su `ErrorCode`.
 - Las fábricas de movimiento (`InventoryMovement.CreateOutbound(...)`) aplican RM-01, RM-03 y RM-08 con el snapshot del producto.
+- Los límites de formato de cada regla (`VALIDATION_ERROR`) son **constantes públicas de la entidad** (`Area.CodeMinimumLength`, `Area.CodePattern`, …). El validador FluentValidation las reutiliza (→ 400) y la entidad las vuelve a comprobar como última barrera (`DomainException(ValidationError)`, que solo salta si se omite el validador). Los patrones usan `\z` en lugar de `$` para rechazar un salto de línea final.
+- Las reglas que dependen de otras tablas reciben el dato ya leído por el handler: `area.Deactivate(activeCategoryCount)` (RA-03). La unicidad (`AREA_CODE_ALREADY_EXISTS`, …) la comprueba el handler a través del repositorio.
+- Las entidades tienen un constructor privado sin parámetros y *setters* privados. Se crean con la fábrica `Create` y Dapper puede materializarlas.
 
 ## Doble barrera (regla + concurrencia)
 1. El **dominio** valida con el estado leído, lo que da errores comprensibles.
@@ -39,4 +42,4 @@ Los diagramas de secuencia canónicos están en `.sdap/INTERFACE_FLOW.md`:
 Manual. Métodos de extensión estáticos `ToResponse()` en `Application/{Module}/Dtos/{Entity}Mappings.cs`. En lecturas EF, la proyección se hace directamente en el `Select` hacia el DTO.
 
 ## Tiempo
-`IClock.UtcNow` en lugar de `DateTime.UtcNow`, para que los tests sean deterministas.
+`IClock.UtcNow` en lugar de `DateTime.UtcNow`, para que los tests sean deterministas. El dominio no conoce `IClock`: el handler le pasa el instante como `DateTime` (`Area.Create(code, name, clock.UtcNow)`).
