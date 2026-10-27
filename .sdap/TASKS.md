@@ -64,7 +64,7 @@
 - **Hecho cuando:** existe un test por cada tipo de excepción → status, `code` y texto.
 - **Depende de:** T-00.
 
-### [ ] T-05 · Esquema de base de datos
+### [x] T-05 · Esquema de base de datos
 - **Objetivo:**
   - Scripts DbUp `0001`–`0004` (tablas, `CHECK` e índices filtrados de `DATA_MINDMAP` §2, **sin FK**).
   - `DatabaseMigrator` ejecutado al arrancar.
