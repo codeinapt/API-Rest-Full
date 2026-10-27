@@ -33,12 +33,12 @@ public sealed class ProductTests
     {
         return new TheoryData<ProductDetails>
         {
-            new(string.Empty, null, 0),
-            new("   ", null, 0),
-            new("No", null, 0),
-            new(new string('N', Product.NameMaximumLength + 1), null, 0),
-            new("Whole milk", new string('D', Product.DescriptionMaximumLength + 1), 0),
-            new("Whole milk", null, -1),
+            new ProductDetails(string.Empty, null, 0),
+            new ProductDetails("   ", null, 0),
+            new ProductDetails("No", null, 0),
+            new ProductDetails(new string('N', Product.NameMaximumLength + 1), null, 0),
+            new ProductDetails("Whole milk", new string('D', Product.DescriptionMaximumLength + 1), 0),
+            new ProductDetails("Whole milk", null, -1),
         };
     }
 
@@ -46,11 +46,11 @@ public sealed class ProductTests
     {
         return new TheoryData<ProductDeactivation>
         {
-            new((DeactivationReason)0, null, UpdateTime, UserId),
-            new((DeactivationReason)6, null, UpdateTime, UserId),
-            new(DeactivationReason.Other, null, UpdateTime, UserId),
-            new(DeactivationReason.Other, "   ", UpdateTime, UserId),
-            new(DeactivationReason.Expired, new string('N', Product.DeactivationNotesMaximumLength + 1), UpdateTime, UserId),
+            new ProductDeactivation((DeactivationReason)0, null, UpdateTime, UserId),
+            new ProductDeactivation((DeactivationReason)6, null, UpdateTime, UserId),
+            new ProductDeactivation(DeactivationReason.Other, null, UpdateTime, UserId),
+            new ProductDeactivation(DeactivationReason.Other, "   ", UpdateTime, UserId),
+            new ProductDeactivation(DeactivationReason.Expired, new string('N', Product.DeactivationNotesMaximumLength + 1), UpdateTime, UserId),
         };
     }
 
