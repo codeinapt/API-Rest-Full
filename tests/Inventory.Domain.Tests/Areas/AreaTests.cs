@@ -10,6 +10,17 @@ public sealed class AreaTests
     private static readonly DateTime CreationTime = new(2026, 10, 27, 9, 0, 0, DateTimeKind.Utc);
     private static readonly DateTime UpdateTime = new(2026, 10, 28, 9, 0, 0, DateTimeKind.Utc);
 
+    public static TheoryData<string> InvalidNames()
+    {
+        return new TheoryData<string>
+        {
+            string.Empty,
+            "   ",
+            "No",
+            new string('N', Area.NameMaximumLength + 1),
+        };
+    }
+
     [Fact]
     public void Create_WithValidData_ReturnsActiveAreaWithGivenValues()
     {
@@ -38,6 +49,7 @@ public sealed class AreaTests
     [InlineData("W1")]
     [InlineData("W-H")]
     [InlineData("ÄB")]
+    [InlineData("WH\n")]
     public void Create_WithInvalidCode_ThrowsValidationError(string code)
     {
         var exception = Should.Throw<DomainException>(() => Area.Create(code, ValidName, CreationTime));
@@ -145,17 +157,6 @@ public sealed class AreaTests
         var exception = Should.Throw<DomainException>(() => area.Deactivate(0));
         exception.Code.ShouldBe(ErrorCode.AreaInactive);
         exception.MessageArguments.ShouldBe([area.Id]);
-    }
-
-    public static TheoryData<string> InvalidNames()
-    {
-        return new TheoryData<string>
-        {
-            string.Empty,
-            "   ",
-            "No",
-            new string('N', Area.NameMaximumLength + 1),
-        };
     }
 
     private static Area CreateInactiveArea()
