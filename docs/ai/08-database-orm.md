@@ -65,11 +65,12 @@ Esquema canónico: `.sdap/DATA_MINDMAP.md` §2.
 - `DatabaseMigrator` se ejecuta al arrancar la API: crea la BD si no existe y aplica los scripts pendientes (journal `SchemaVersions`).
 - **Un script commiteado no se edita jamás.** Los cambios se hacen con un script nuevo.
 - Los scripts son idempotentes en la medida de lo posible (`IF NOT EXISTS`).
-- Scripts actuales: `0001_CreateAreas`, `0002_CreateCategories`, `0003_CreateProducts`, `0004_CreateInventoryMovements` (una tabla por script, con sus índices). El journal guarda el nombre completo del recurso (`Inventory.Infrastructure.Migrations.Scripts.0001_CreateAreas.sql`): **no se renombra** ni se mueve un script ya commiteado.
+- Scripts actuales: `0001_CreateAreas`, `0002_CreateCategories`, `0003_CreateProducts`, `0004_CreateInventoryMovements` (una tabla por script, con sus índices) y `0005_SeedData`. El journal guarda el nombre completo del recurso (`Inventory.Infrastructure.Migrations.Scripts.0001_CreateAreas.sql`): **no se renombra** ni se mueve un script ya commiteado.
 - Nombres de restricciones: `PK_{Tabla}`, `DF_{Tabla}_{Columna}`, `CK_{Tabla}_{Columna}_{Regla}` (p. ej. `CK_InventoryMovements_ResultingStock_MatchesDelta`), y los índices como en `DATA_MINDMAP` §2.
 - `AdjustmentReason` obligatorio en ajustes: `CHECK (Type <> 3 OR AdjustmentReason IS NOT NULL)` (`MovementType.Adjustment = 3`).
 - Arranque: `Program.cs` lee `INVENTORY_DB_CONNECTION` (`EnvironmentVariableNames.DatabaseConnection`), llama a `AddInventoryInfrastructure(connectionString)` y, tras `builder.Build()`, ejecuta `DatabaseMigrator.Migrate()` antes de servir peticiones.
 - `DatabaseMigrator`: `EnsureDatabase` + `DeployChanges` con una transacción por script y log a `ILogger<DatabaseMigrator>`. Si un script falla lanza `InvalidOperationException` con el nombre del script, y la API no arranca.
+- **Datos semilla (`0005_SeedData`, T-23):** áreas `FOOD`, `CLEAN`, `TOOLS`; dos categorías por área; doce productos creados con stock 0. El stock inicial se carga, como en `ApplyDelta`, con un `INSERT` de movimiento `In` (`PreviousStock` = stock actual, `CreatedBy = 'seed'`, notas `Stock inicial`) seguido de `UPDATE Stock = Stock + Quantity`, de modo que se cumple RM-11 (stock = suma de deltas). `FOOD-OIL-001` queda sin stock y `FOOD-YOG-001`, `CLEAN-BLE-001` y `TOOLS-SCR-001` quedan por debajo del mínimo, para probar `lowStock`. Todo el script va protegido por `IF NOT EXISTS (SELECT 1 FROM dbo.Areas)`: solo siembra bases de datos vacías (una BD de desarrollo con áreas creadas a mano no recibe la semilla; hay que recrear el volumen).
 - Los scripts se prueban contra SQL Server real en `Inventory.IntegrationTests` (T-24), no con tests unitarios.
 
 ## Índices
