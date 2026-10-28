@@ -39,7 +39,9 @@ Decisión: ADR-0012.
 
 ## Cobertura
 - coverlet con objetivo de **≥ 80 %** en `Domain` y `Application`. `Infrastructure` y `Program.cs` se excluyen del objetivo unitario (los cubre la integración).
-- El informe se publica como artefacto en CI.
+- **CI (`.github/workflows/ci.yml`, GitHub Actions):** en cada *push*, en los PR hacia `develop`/`main` y a demanda. Compila en Release (warnings = errores) y ejecuta **todos** los proyectos de prueba, integración incluida (el runner `ubuntu-latest` trae Docker para Testcontainers).
+- **Informe:** ReportGenerator fusiona los XML Cobertura de los cuatro proyectos de prueba en un informe HTML, que se sube como artefacto `coverage-report` junto con los `.trx`. El resumen aparece en el *Job Summary* de la ejecución.
+- **Umbral:** el job falla si la cobertura de líneas de `Inventory.Domain` + `Inventory.Application` (fusionando todas las suites) baja del 80 % (`MINIMUM_LINE_COVERAGE`). En T-25 estaba en el 96,7 %.
 
 ## Matriz mínima obligatoria
 Cada regla de `DOMAIN_LOGIC` con un `Error` asociado tiene **al menos un test** que provoca ese error y comprueba su `ErrorCode`.
