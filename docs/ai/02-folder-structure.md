@@ -27,6 +27,7 @@ Common/
     {Get...}Handler.cs
     {Get...}Validator.cs              (si recibe parámetros)
     {Entity}QueryParameters.cs        (en la carpeta del listado, p. ej. Queries/GetAreas/)
+    {Entity}Sort{Concept}.cs          Enums de orden del listado (ProductSortField, ProductSortDirection en Queries/GetProducts/)
   Dtos/{Name}Request.cs | {Name}Response.cs
   Ports/I{Entity}ReadRepository.cs | I{Entity}WriteRepository.cs
 Common/

@@ -156,7 +156,7 @@
 - **Scope:** `A/Common/Authorization/AreaAccessPolicy.cs`, `A/Products/Commands/ReactivateProduct/*`, `ProductWriteRepository`, tests.
 - **Depende de:** T-03, T-16.
 
-### [ ] T-18 · Queries de Producto (CU-15) y `ProductsController` (E11–E18)
+### [x] T-18 · Queries de Producto (CU-15) y `ProductsController` (E11–E18)
 - **Objetivo:** listado con filtros (`categoryId`, `status`, `search`, `lowStock`), orden con lista blanca, detalle y el controller completo.
 - **Payload:** `.sdap/USE_CASES.md` CU-15, `.sdap/SCREEN_FLOW.md` E11–E18, `.sdap/DATA_MINDMAP.md` §4.3, `docs/ai/08` (EF).
 - **Scope:** `A/Products/Queries/*`, `I/Persistence/Read/ProductReadRepository.cs`, `W/Controllers/ProductsController.cs`, tests.

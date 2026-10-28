@@ -26,6 +26,7 @@ public static class DependencyInjection
         services.AddScoped<IAreaWriteRepository, AreaWriteRepository>();
         services.AddScoped<ICategoryReadRepository, CategoryReadRepository>();
         services.AddScoped<ICategoryWriteRepository, CategoryWriteRepository>();
+        services.AddScoped<IProductReadRepository, ProductReadRepository>();
         services.AddScoped<IProductWriteRepository, ProductWriteRepository>();
 
         return services;
