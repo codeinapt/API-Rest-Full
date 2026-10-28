@@ -9,4 +9,12 @@ internal static class PersistedIdentity
 
         return entity;
     }
+
+    public static TEntity Assign<TEntity>(TEntity entity, long id)
+        where TEntity : class
+    {
+        typeof(TEntity).GetProperty("Id")!.SetValue(entity, id);
+
+        return entity;
+    }
 }
