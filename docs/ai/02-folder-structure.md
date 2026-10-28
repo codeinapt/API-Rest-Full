@@ -58,7 +58,7 @@ DependencyInjection.cs
 
 ## Inventory.Api
 ```
-Controllers/{Resource}Controller.cs
+Controllers/{Resource}Controller.cs       Sub-recursos con controller propio: Product{SubResource}Controller (ProductMovementsController, ProductAdjustmentsController)
 Authorization/{Policy}Names.cs, ClaimsCurrentUser.cs, KeycloakRolesClaimsTransformation.cs
 ErrorHandling/GlobalExceptionHandler.cs, ProblemDetailsMapper.cs, ErrorCatalog.cs, ErrorText.cs,
               ProblemDetailsResponseWriter.cs, ProblemDetailsAuthorizationResultHandler.cs

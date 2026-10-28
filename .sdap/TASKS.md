@@ -183,7 +183,7 @@
 - **Scope:** `A/Movements/Commands/RegisterAdjustment/*`, `MovementWriteRepository`, tests.
 - **Depende de:** T-17, T-20.
 
-### [ ] T-22 · Consultar movimientos (CU-18) y controllers de movimientos (E19–E21)
+### [x] T-22 · Consultar movimientos (CU-18) y controllers de movimientos (E19–E21)
 - **Payload:** `.sdap/USE_CASES.md` CU-18, `.sdap/SCREEN_FLOW.md` E19–E21.
 - **Scope:** `A/Movements/Queries/*`, `I/Persistence/Read/MovementReadRepository.cs`, `W/Controllers/{ProductMovementsController,ProductAdjustmentsController}.cs`, tests.
 - **Depende de:** T-18, T-21.

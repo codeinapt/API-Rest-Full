@@ -47,6 +47,8 @@ public static class ErrorMessages
     public const string AdjustmentDeltaInvalid = "El delta debe ser distinto de 0 y estar entre -1.000.000 y 1.000.000.";
     public const string AdjustmentReasonInvalid = "El motivo debe ser PhysicalCountCorrection, Damage, Expiration, LossOrTheft, Found o DataEntryError.";
     public const string MovementNotesTooLong = "Las notas no pueden superar los 500 caracteres.";
+    public const string MovementTypeFilterInvalid = "El tipo debe ser In, Out o Adjustment.";
+    public const string MovementDateRangeInvalid = "La fecha from no puede ser posterior a to.";
     public const string PageOutOfRange = "La página debe ser mayor o igual que 1.";
     public const string PageSizeOutOfRange = "El tamaño de página debe estar entre 1 y 100.";
     public const string StatusInvalid = "El estado debe ser active, inactive o all.";
