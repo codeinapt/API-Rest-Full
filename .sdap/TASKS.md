@@ -166,7 +166,7 @@
 
 ## Fase 4 — Movimientos
 
-### [ ] T-19 · Dominio `InventoryMovement` (TDD)
+### [x] T-19 · Dominio `InventoryMovement` (TDD)
 - **Objetivo:** fábricas `CreateInbound`, `CreateOutbound` y `CreateAdjustment`, con las reglas RM-01 a RM-10.
 - **Payload:** `.sdap/DOMAIN_LOGIC.md` §2, §3.4 y §5.3.
 - **Scope:** `D/Movements/*`, tests.
