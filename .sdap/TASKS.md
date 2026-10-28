@@ -140,7 +140,7 @@
 - **Scope:** `A/Products/Commands/{CreateProduct,UpdateProduct}/*`, `A/Products/Ports/IProductWriteRepository.cs`, `A/Products/Dtos/*`, `I/Persistence/Write/ProductWriteRepository.cs`, tests.
 - **Depende de:** T-11, T-13.
 
-### [ ] T-15 · Cambiar categoría de producto (CU-11)
+### [x] T-15 · Cambiar categoría de producto (CU-11)
 - **Payload:** `.sdap/USE_CASES.md` CU-11.
 - **Scope:** `A/Products/Commands/ChangeProductCategory/*`, `ProductWriteRepository`, tests.
 - **Depende de:** T-14.

@@ -36,6 +36,12 @@ internal sealed class ProductWriteRepository(UnitOfWork unitOfWork) : IProductWr
         WHERE Id = @Id;
         """;
 
+    private const string UpdateCategorySql = """
+        UPDATE dbo.Products
+        SET CategoryId = @CategoryId, UpdatedAt = @UpdatedAt
+        WHERE Id = @Id;
+        """;
+
     public async Task<Product?> GetByIdForUpdateAsync(int productId, CancellationToken cancellationToken)
     {
         return await unitOfWork.Connection.QuerySingleOrDefaultAsync<Product>(CreateCommand(SelectByIdForUpdateSql, new { ProductId = productId }, cancellationToken));
@@ -65,6 +71,12 @@ internal sealed class ProductWriteRepository(UnitOfWork unitOfWork) : IProductWr
     {
         var parameters = new { product.Id, product.Name, product.Description, product.MinimumStock, product.UpdatedAt };
         await unitOfWork.Connection.ExecuteAsync(CreateCommand(UpdateDetailsSql, parameters, cancellationToken));
+    }
+
+    public async Task UpdateCategoryAsync(Product product, CancellationToken cancellationToken)
+    {
+        var parameters = new { product.Id, product.CategoryId, product.UpdatedAt };
+        await unitOfWork.Connection.ExecuteAsync(CreateCommand(UpdateCategorySql, parameters, cancellationToken));
     }
 
     private static DbString ToAnsiSku(string sku)
