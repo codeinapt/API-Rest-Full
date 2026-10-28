@@ -204,7 +204,7 @@
 - **Scope:** `tests/Inventory.IntegrationTests/*`, `Directory.Packages.props` (Testcontainers).
 - **Depende de:** T-22.
 
-### [ ] T-25 · Integración continua
+### [x] T-25 · Integración continua
 - **Objetivo:** GitHub Actions que ejecute build, tests y cobertura en cada push y publique el informe como artefacto.
 - **Scope:** `.github/workflows/ci.yml`.
 - **Depende de:** T-00.
