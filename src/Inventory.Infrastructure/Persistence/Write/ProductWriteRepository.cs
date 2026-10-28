@@ -84,7 +84,7 @@ internal sealed class ProductWriteRepository(UnitOfWork unitOfWork) : IProductWr
         UPDATE dbo.Products
         SET Stock = Stock + @Delta
         OUTPUT deleted.Stock
-        WHERE Id = @ProductId AND IsActive = 1 AND Stock + @Delta >= 0;
+        WHERE Id = @ProductId AND (IsActive = 1 OR @Type = 3) AND Stock + @Delta >= 0;
         """;
 
     public async Task<Product?> GetStockSnapshotAsync(int productId, CancellationToken cancellationToken)
@@ -164,7 +164,7 @@ internal sealed class ProductWriteRepository(UnitOfWork unitOfWork) : IProductWr
 
     public async Task<int?> ApplyDeltaAsync(InventoryMovement movement, CancellationToken cancellationToken)
     {
-        var parameters = new { movement.ProductId, movement.Delta };
+        var parameters = new { movement.ProductId, Type = (byte)movement.Type, movement.Delta };
 
         return await unitOfWork.Connection.QuerySingleOrDefaultAsync<int?>(CreateCommand(ApplyDeltaSql, parameters, cancellationToken));
     }

@@ -24,4 +24,9 @@ public static class MovementMappings
     {
         return new MovementEntry(request.Quantity, request.Notes, createdAt, createdBy);
     }
+
+    public static AdjustmentEntry ToEntry(this RegisterAdjustmentRequest request, DateTime createdAt, string createdBy)
+    {
+        return new AdjustmentEntry(request.Delta, request.Reason, request.Notes, request.RelatedMovementId, createdAt, createdBy);
+    }
 }

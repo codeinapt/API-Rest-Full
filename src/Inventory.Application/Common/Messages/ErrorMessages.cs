@@ -44,6 +44,8 @@ public static class ErrorMessages
     public const string DeactivationNotesRequired = "Las notas son obligatorias cuando el motivo es Other.";
     public const string MovementTypeInvalid = "El tipo debe ser In u Out.";
     public const string MovementQuantityInvalid = "La cantidad debe estar entre 1 y 1.000.000.";
+    public const string AdjustmentDeltaInvalid = "El delta debe ser distinto de 0 y estar entre -1.000.000 y 1.000.000.";
+    public const string AdjustmentReasonInvalid = "El motivo debe ser PhysicalCountCorrection, Damage, Expiration, LossOrTheft, Found o DataEntryError.";
     public const string MovementNotesTooLong = "Las notas no pueden superar los 500 caracteres.";
     public const string PageOutOfRange = "La página debe ser mayor o igual que 1.";
     public const string PageSizeOutOfRange = "El tamaño de página debe estar entre 1 y 100.";
