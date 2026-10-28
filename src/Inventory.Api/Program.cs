@@ -8,6 +8,7 @@ using Inventory.Application.Areas.Queries.GetAreas;
 using Inventory.Application.Categories.Commands.CreateCategory;
 using Inventory.Application.Categories.Commands.UpdateCategory;
 using Inventory.Application.Categories.Queries.GetCategories;
+using Inventory.Application.Common.Authorization;
 using Inventory.Application.Common.Behaviors;
 using Inventory.Application.Products.Commands.CreateProduct;
 using Inventory.Application.Products.Commands.DeactivateProduct;
@@ -42,6 +43,7 @@ builder.Services.AddSingleton<IValidator<UpdateProductCommand>, UpdateProductVal
 builder.Services.AddSingleton<IValidator<DeactivateProductCommand>, DeactivateProductValidator>();
 builder.Services.AddInventoryAuthentication(authenticationSettings, builder.Environment);
 builder.Services.AddInventoryAuthorization();
+builder.Services.AddScoped<AreaAccessPolicy>();
 builder.Services.AddInventorySwagger(authenticationSettings);
 builder.Services.AddInventoryInfrastructure(databaseConnectionString);
 var app = builder.Build();
