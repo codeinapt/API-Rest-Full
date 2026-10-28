@@ -32,4 +32,7 @@
     <PackageVersion Include="Shouldly" Version="4.3.0" />
     <PackageVersion Include="coverlet.collector" Version="10.1.0" />
   </ItemGroup>
+  <ItemGroup Label="Integration tests">
+    <PackageVersion Include="Testcontainers.MsSql" Version="4.16.0" />
+  </ItemGroup>
 </Project>

@@ -32,4 +32,27 @@ public static class ErrorMessages
     public const string ReferencedCategoryInvalid = "La categoría {0} no existe o está inactiva.";
     public const string RelatedMovementInvalid = "El movimiento {0} no existe o no pertenece al producto.";
     public const string InternalError = "Ocurrió un error inesperado.";
+    public const string AreaCodeInvalid = "El código debe tener entre 2 y 10 letras mayúsculas (A-Z).";
+    public const string AreaNameInvalid = "El nombre debe tener entre 3 y 100 caracteres.";
+    public const string CategoryNameInvalid = "El nombre debe tener entre 3 y 100 caracteres.";
+    public const string ProductSkuInvalid = "El SKU debe tener entre 3 y 50 caracteres: letras mayúsculas (A-Z), dígitos o guiones.";
+    public const string ProductNameInvalid = "El nombre debe tener entre 3 y 150 caracteres.";
+    public const string ProductDescriptionInvalid = "La descripción no puede superar los 1000 caracteres.";
+    public const string MinimumStockInvalid = "El stock mínimo debe ser mayor o igual que 0.";
+    public const string DeactivationReasonInvalid = "El motivo debe ser Expired, Damaged, Discontinued, Recalled u Other.";
+    public const string DeactivationNotesTooLong = "Las notas no pueden superar los 500 caracteres.";
+    public const string DeactivationNotesRequired = "Las notas son obligatorias cuando el motivo es Other.";
+    public const string MovementTypeInvalid = "El tipo debe ser In u Out.";
+    public const string MovementQuantityInvalid = "La cantidad debe estar entre 1 y 1.000.000.";
+    public const string AdjustmentDeltaInvalid = "El delta debe ser distinto de 0 y estar entre -1.000.000 y 1.000.000.";
+    public const string AdjustmentReasonInvalid = "El motivo debe ser PhysicalCountCorrection, Damage, Expiration, LossOrTheft, Found o DataEntryError.";
+    public const string MovementNotesTooLong = "Las notas no pueden superar los 500 caracteres.";
+    public const string MovementTypeFilterInvalid = "El tipo debe ser In, Out o Adjustment.";
+    public const string MovementDateRangeInvalid = "La fecha from no puede ser posterior a to.";
+    public const string PageOutOfRange = "La página debe ser mayor o igual que 1.";
+    public const string PageSizeOutOfRange = "El tamaño de página debe estar entre 1 y 100.";
+    public const string StatusInvalid = "El estado debe ser active, inactive o all.";
+    public const string SortByInvalid = "El orden debe ser name, sku o stock.";
+    public const string SortDirectionInvalid = "La dirección debe ser asc o desc.";
+    public const string FieldValueInvalid = "El valor no es válido.";
 }

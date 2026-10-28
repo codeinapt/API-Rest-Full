@@ -7,6 +7,7 @@ Visión de alto nivel: `.sdap/ARCH_SKELETON.md` §5. Aquí se detalla **dónde v
 {Module}/                 Areas | Categories | Products | Movements
   {Entity}.cs             Entidad con sus métodos de dominio
   {Enum}.cs               Un enum por archivo
+  {Entity}{Concept}.cs    Record de dominio que agrupa datos de entrada (ProductDetails, ProductDeactivation, MovementEntry, AdjustmentEntry)
   Exceptions/{Name}Exception.cs
 Common/
   InventoryException.cs   Base abstracta: Code (ErrorCode) + MessageArguments
@@ -25,13 +26,16 @@ Common/
     {Get...}Query.cs
     {Get...}Handler.cs
     {Get...}Validator.cs              (si recibe parámetros)
+    {Entity}QueryParameters.cs        (en la carpeta del listado, p. ej. Queries/GetAreas/)
+    {Entity}Sort{Concept}.cs          Enums de orden del listado (ProductSortField, ProductSortDirection en Queries/GetProducts/)
   Dtos/{Name}Request.cs | {Name}Response.cs
   Ports/I{Entity}ReadRepository.cs | I{Entity}WriteRepository.cs
 Common/
   Behaviors/ValidationBehavior.cs
   Interfaces/ICurrentUser.cs, IClock.cs, IUnitOfWork.cs
   Exceptions/                         Excepciones de aplicación (NotFound, Forbidden…)
-  Pagination/PagedResponse.cs, PaginationParameters.cs
+  Pagination/PagedResponse.cs, PaginationParameters.cs, PaginationParametersValidator.cs,
+             StatusFilter.cs          (filtro status compartido: Active | Inactive | All)
   Messages/ErrorMessages.cs           ÚNICO lugar con texto en español
   Authorization/AreaAccessPolicy.cs
 ```
@@ -40,19 +44,21 @@ Common/
 ```
 Persistence/
   Read/InventoryReadDbContext.cs
-  Read/Configurations/{Entity}Configuration.cs
+  Read/Models/{Table}Row.cs           Filas de solo lectura (AreaRow, CategoryRow, ProductRow, InventoryMovementRow)
+  Read/Configurations/{Table}RowConfiguration.cs, UtcDateTimeConverter.cs
   Read/{Entity}ReadRepository.cs
   Write/SqlConnectionFactory.cs, UnitOfWork.cs
   Write/{Entity}WriteRepository.cs
 Migrations/
   Scripts/NNNN_Description.sql       Recurso embebido
   DatabaseMigrator.cs
+Common/SystemClock.cs                 Implementación de IClock
 DependencyInjection.cs
 ```
 
 ## Inventory.Api
 ```
-Controllers/{Resource}Controller.cs
+Controllers/{Resource}Controller.cs       Sub-recursos con controller propio: Product{SubResource}Controller (ProductMovementsController, ProductAdjustmentsController)
 Authorization/{Policy}Names.cs, ClaimsCurrentUser.cs, KeycloakRolesClaimsTransformation.cs
 ErrorHandling/GlobalExceptionHandler.cs, ProblemDetailsMapper.cs, ErrorCatalog.cs, ErrorText.cs,
               ProblemDetailsResponseWriter.cs, ProblemDetailsAuthorizationResultHandler.cs
@@ -63,3 +69,12 @@ Dockerfile
 
 ## Tests
 Las carpetas de prueba replican la ruta del código probado: `tests/Inventory.Domain.Tests/Products/ProductTests.cs`.
+
+`tests/Inventory.IntegrationTests` (referencia a `Inventory.Infrastructure`):
+```
+AssemblyConfiguration.cs     [assembly: AssemblyFixture(SqlServerFixture)] y paralelización desactivada
+Common/                      SqlServerFixture, InventoryOperations (handlers reales), WriteScope (repositorios en transacción),
+                             ProductRowLock (transacción bloqueante), DatabaseQueries + LedgerEntry (lecturas Dapper para los asserts),
+                             IntegrationTestUser
+Migrations/ Movements/ Products/   Tests agrupados por módulo, como en los unitarios
+```
