@@ -59,6 +59,14 @@ public sealed class ProductMappingsTests
         response.Reactivation.ShouldBe(new ProductReactivationResponse(ReactivationTime, Supervisor));
     }
 
+    [Fact]
+    public void ToDeactivation_WithRequest_MapsReasonAndNotesWithTimeAndUser()
+    {
+        var request = new DeactivateProductRequest(DeactivationReason.Other, "Supplier recall");
+        var deactivation = request.ToDeactivation(DeactivationTime, Supervisor);
+        deactivation.ShouldBe(new ProductDeactivation(DeactivationReason.Other, "Supplier recall", DeactivationTime, Supervisor));
+    }
+
     private static Product AssignStock(Product product, int stock)
     {
         typeof(Product).GetProperty(nameof(Product.Stock))!.SetValue(product, stock);
