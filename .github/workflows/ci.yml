@@ -1,0 +1,86 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+    branches:
+      - develop
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  MINIMUM_LINE_COVERAGE: 80
+
+jobs:
+  build-test-coverage:
+    name: Build, test and coverage
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup .NET SDK from global.json
+        uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: global.json
+
+      - name: Restore
+        run: dotnet restore Inventory.sln
+
+      - name: Build (warnings are errors)
+        run: dotnet build Inventory.sln --configuration Release --no-restore
+
+      # Inventory.IntegrationTests starts SQL Server with Testcontainers; ubuntu-latest ships Docker.
+      - name: Test with coverage
+        run: >-
+          dotnet test Inventory.sln
+          --configuration Release
+          --no-build
+          --collect:"XPlat Code Coverage"
+          --logger trx
+          --results-directory TestResults
+
+      - name: Merge coverage report
+        if: ${{ !cancelled() }}
+        uses: danielpalme/ReportGenerator-GitHub-Action@v5
+        with:
+          reports: TestResults/**/coverage.cobertura.xml
+          targetdir: coverage-report
+          reporttypes: Html;MarkdownSummaryGithub;Cobertura
+
+      - name: Publish coverage summary
+        if: ${{ !cancelled() }}
+        run: cat coverage-report/SummaryGithub.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload coverage report and test results
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v5
+        with:
+          name: coverage-report
+          path: |
+            coverage-report
+            TestResults/**/*.trx
+
+      - name: Measure Domain and Application coverage
+        uses: danielpalme/ReportGenerator-GitHub-Action@v5
+        with:
+          reports: TestResults/**/coverage.cobertura.xml
+          targetdir: coverage-gate
+          reporttypes: JsonSummary
+          assemblyfilters: +Inventory.Domain;+Inventory.Application
+
+      - name: Enforce minimum line coverage
+        run: |
+          coverage=$(jq '.summary.linecoverage' coverage-gate/Summary.json)
+          echo "Domain + Application line coverage: ${coverage}% (minimum ${MINIMUM_LINE_COVERAGE}%)"
+          awk -v actual="$coverage" -v minimum="$MINIMUM_LINE_COVERAGE" 'BEGIN { exit (actual < minimum) }'
