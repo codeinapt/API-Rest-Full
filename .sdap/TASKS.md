@@ -178,7 +178,7 @@
 - **Scope:** `A/Movements/Commands/RegisterMovement/*`, `A/Movements/Ports/IMovementWriteRepository.cs`, `I/Persistence/Write/MovementWriteRepository.cs`, `ProductWriteRepository.ApplyDelta`, tests.
 - **Depende de:** T-14, T-19.
 
-### [ ] T-21 · Registrar ajuste (CU-17)
+### [x] T-21 · Registrar ajuste (CU-17)
 - **Payload:** `.sdap/USE_CASES.md` CU-17, SEQ-05.
 - **Scope:** `A/Movements/Commands/RegisterAdjustment/*`, `MovementWriteRepository`, tests.
 - **Depende de:** T-17, T-20.
