@@ -209,7 +209,7 @@
 - **Scope:** `.github/workflows/ci.yml`.
 - **Depende de:** T-00.
 
-### [ ] T-26 · README final
+### [x] T-26 · README final
 - **Objetivo:**
   - Requisitos, configuración (`.env`), `docker compose up`, depuración local, usuarios de prueba, cómo probar en Swagger cada rol (incluidos los 403 por área), cómo ejecutar tests y cobertura.
   - **Sección "Uso de IA":** herramientas, fases, validación y correcciones manuales, enlaces a ADRs y auditorías.
