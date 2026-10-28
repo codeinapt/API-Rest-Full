@@ -48,7 +48,7 @@ public sealed class GetMovementsHandlerTests
         exception.ShouldSatisfyAllConditions(
             () => exception.Code.ShouldBe(ErrorCode.ProductNotFound),
             () => exception.MessageArguments.ShouldBe([ProductId]));
-        await movementReadRepository.DidNotReceiveWithAnyArgs().GetPageAsync(default!, default);
+        await movementReadRepository.DidNotReceive().GetPageAsync(Arg.Any<GetMovementsQuery>(), Arg.Any<CancellationToken>());
     }
 
     private static ProductResponse CreateProduct(bool isActive)

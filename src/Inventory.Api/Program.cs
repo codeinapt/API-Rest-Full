@@ -12,6 +12,7 @@ using Inventory.Application.Common.Authorization;
 using Inventory.Application.Common.Behaviors;
 using Inventory.Application.Movements.Commands.RegisterAdjustment;
 using Inventory.Application.Movements.Commands.RegisterMovement;
+using Inventory.Application.Movements.Queries.GetMovements;
 using Inventory.Application.Products.Commands.CreateProduct;
 using Inventory.Application.Products.Commands.DeactivateProduct;
 using Inventory.Application.Products.Commands.UpdateProduct;
@@ -47,6 +48,7 @@ builder.Services.AddSingleton<IValidator<DeactivateProductCommand>, DeactivatePr
 builder.Services.AddSingleton<IValidator<GetProductsQuery>, GetProductsValidator>();
 builder.Services.AddSingleton<IValidator<RegisterMovementCommand>, RegisterMovementValidator>();
 builder.Services.AddSingleton<IValidator<RegisterAdjustmentCommand>, RegisterAdjustmentValidator>();
+builder.Services.AddSingleton<IValidator<GetMovementsQuery>, GetMovementsValidator>();
 builder.Services.AddInventoryAuthentication(authenticationSettings, builder.Environment);
 builder.Services.AddInventoryAuthorization();
 builder.Services.AddScoped<AreaAccessPolicy>();
