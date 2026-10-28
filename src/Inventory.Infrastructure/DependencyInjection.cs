@@ -1,6 +1,7 @@
 using Inventory.Application.Areas.Ports;
 using Inventory.Application.Categories.Ports;
 using Inventory.Application.Common.Interfaces;
+using Inventory.Application.Movements.Ports;
 using Inventory.Application.Products.Ports;
 using Inventory.Infrastructure.Common;
 using Inventory.Infrastructure.Migrations;
@@ -28,6 +29,7 @@ public static class DependencyInjection
         services.AddScoped<ICategoryWriteRepository, CategoryWriteRepository>();
         services.AddScoped<IProductReadRepository, ProductReadRepository>();
         services.AddScoped<IProductWriteRepository, ProductWriteRepository>();
+        services.AddScoped<IMovementWriteRepository, MovementWriteRepository>();
 
         return services;
     }
