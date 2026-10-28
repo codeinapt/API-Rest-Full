@@ -51,7 +51,7 @@ public sealed class ProductsControllerTests
     [Fact]
     public async Task GetProducts_SendsQueryWithParametersAndReturnsOkWithPage()
     {
-        var parameters = new ProductQueryParameters { CategoryId = CategoryId, Search = "drill", LowStock = true, SortBy = ProductSortField.Sku, SortDirection = SortDirection.Desc };
+        var parameters = new ProductQueryParameters { CategoryId = CategoryId, Search = "drill", LowStock = true, SortBy = ProductSortField.Sku, SortDirection = ProductSortDirection.Desc };
         var expectedPage = new PagedResponse<ProductResponse>([Product], parameters, 1);
         sender.Send(Arg.Is<GetProductsQuery>(query => query.Parameters == parameters), Arg.Any<CancellationToken>()).Returns(expectedPage);
         var response = await controller.GetProducts(parameters, CancellationToken.None);

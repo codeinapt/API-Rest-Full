@@ -17,6 +17,6 @@ public sealed class ProductQueryParametersTests
             () => parameters.Search.ShouldBeNull(),
             () => parameters.LowStock.ShouldBeNull(),
             () => parameters.SortBy.ShouldBe(ProductSortField.Name),
-            () => parameters.SortDirection.ShouldBe(SortDirection.Asc));
+            () => parameters.SortDirection.ShouldBe(ProductSortDirection.Asc));
     }
 }

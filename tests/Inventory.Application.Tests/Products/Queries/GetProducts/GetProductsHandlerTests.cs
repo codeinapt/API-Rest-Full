@@ -19,7 +19,7 @@ public sealed class GetProductsHandlerTests
     [Fact]
     public async Task Handle_ReturnsThePageReadWithTheQueryParameters()
     {
-        var parameters = new ProductQueryParameters { Page = 2, PageSize = 5, CategoryId = 3, Search = "drill", LowStock = true, SortBy = ProductSortField.Stock, SortDirection = SortDirection.Desc };
+        var parameters = new ProductQueryParameters { Page = 2, PageSize = 5, CategoryId = 3, Search = "drill", LowStock = true, SortBy = ProductSortField.Stock, SortDirection = ProductSortDirection.Desc };
         var product = new ProductResponse(21, "DRL-001", "Drill", null, 3, "Tools", "TOOLS", 2, 5, true, true, null, null, DateTime.UtcNow, null);
         var expectedPage = new PagedResponse<ProductResponse>([product], parameters, 6);
         productReadRepository.GetPageAsync(parameters, Arg.Any<CancellationToken>()).Returns(expectedPage);

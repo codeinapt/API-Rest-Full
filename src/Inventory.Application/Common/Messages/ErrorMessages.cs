@@ -45,5 +45,7 @@ public static class ErrorMessages
     public const string PageOutOfRange = "La página debe ser mayor o igual que 1.";
     public const string PageSizeOutOfRange = "El tamaño de página debe estar entre 1 y 100.";
     public const string StatusInvalid = "El estado debe ser active, inactive o all.";
+    public const string SortByInvalid = "El orden debe ser name, sku o stock.";
+    public const string SortDirectionInvalid = "La dirección debe ser asc o desc.";
     public const string FieldValueInvalid = "El valor no es válido.";
 }

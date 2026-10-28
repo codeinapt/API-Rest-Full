@@ -13,6 +13,7 @@ using Inventory.Application.Common.Behaviors;
 using Inventory.Application.Products.Commands.CreateProduct;
 using Inventory.Application.Products.Commands.DeactivateProduct;
 using Inventory.Application.Products.Commands.UpdateProduct;
+using Inventory.Application.Products.Queries.GetProducts;
 using Inventory.Infrastructure;
 using Inventory.Infrastructure.Migrations;
 using Microsoft.AspNetCore.Authorization;
@@ -41,6 +42,7 @@ builder.Services.AddSingleton<IValidator<GetCategoriesQuery>, GetCategoriesValid
 builder.Services.AddSingleton<IValidator<CreateProductCommand>, CreateProductValidator>();
 builder.Services.AddSingleton<IValidator<UpdateProductCommand>, UpdateProductValidator>();
 builder.Services.AddSingleton<IValidator<DeactivateProductCommand>, DeactivateProductValidator>();
+builder.Services.AddSingleton<IValidator<GetProductsQuery>, GetProductsValidator>();
 builder.Services.AddInventoryAuthentication(authenticationSettings, builder.Environment);
 builder.Services.AddInventoryAuthorization();
 builder.Services.AddScoped<AreaAccessPolicy>();

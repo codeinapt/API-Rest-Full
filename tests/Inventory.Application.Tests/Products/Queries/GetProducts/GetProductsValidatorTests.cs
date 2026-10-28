@@ -9,10 +9,10 @@ public sealed class GetProductsValidatorTests
     private readonly GetProductsValidator validator = new();
 
     [Theory]
-    [InlineData(StatusFilter.Active, ProductSortField.Name, SortDirection.Asc)]
-    [InlineData(StatusFilter.Inactive, ProductSortField.Sku, SortDirection.Desc)]
-    [InlineData(StatusFilter.All, ProductSortField.Stock, SortDirection.Asc)]
-    public void Validate_WhenParametersAreAllowed_IsValid(StatusFilter status, ProductSortField sortBy, SortDirection sortDirection)
+    [InlineData(StatusFilter.Active, ProductSortField.Name, ProductSortDirection.Asc)]
+    [InlineData(StatusFilter.Inactive, ProductSortField.Sku, ProductSortDirection.Desc)]
+    [InlineData(StatusFilter.All, ProductSortField.Stock, ProductSortDirection.Asc)]
+    public void Validate_WhenParametersAreAllowed_IsValid(StatusFilter status, ProductSortField sortBy, ProductSortDirection sortDirection)
     {
         var parameters = new ProductQueryParameters { CategoryId = 3, Status = status, Search = "drill", LowStock = true, SortBy = sortBy, SortDirection = sortDirection };
         var result = validator.Validate(new GetProductsQuery(parameters));
@@ -58,7 +58,7 @@ public sealed class GetProductsValidatorTests
     [Fact]
     public void Validate_WhenSortDirectionIsNotADefinedValue_FailsOnSortDirectionWithSpanishMessage()
     {
-        var result = validator.Validate(new GetProductsQuery(new ProductQueryParameters { SortDirection = (SortDirection)7 }));
+        var result = validator.Validate(new GetProductsQuery(new ProductQueryParameters { SortDirection = (ProductSortDirection)7 }));
         result.Errors.ShouldHaveSingleItem().ShouldSatisfyAllConditions(
             failure => failure.PropertyName.ShouldBe(nameof(ProductQueryParameters.SortDirection)),
             failure => failure.ErrorMessage.ShouldBe(ErrorMessages.SortDirectionInvalid));
