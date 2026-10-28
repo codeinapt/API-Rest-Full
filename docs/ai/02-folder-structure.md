@@ -69,3 +69,12 @@ Dockerfile
 
 ## Tests
 Las carpetas de prueba replican la ruta del código probado: `tests/Inventory.Domain.Tests/Products/ProductTests.cs`.
+
+`tests/Inventory.IntegrationTests` (referencia a `Inventory.Infrastructure`):
+```
+AssemblyConfiguration.cs     [assembly: AssemblyFixture(SqlServerFixture)] y paralelización desactivada
+Common/                      SqlServerFixture, InventoryOperations (handlers reales), WriteScope (repositorios en transacción),
+                             ProductRowLock (transacción bloqueante), DatabaseQueries + LedgerEntry (lecturas Dapper para los asserts),
+                             IntegrationTestUser
+Migrations/ Movements/ Products/   Tests agrupados por módulo, como en los unitarios
+```

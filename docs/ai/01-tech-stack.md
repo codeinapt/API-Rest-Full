@@ -22,6 +22,7 @@ Fijadas en T-00 (2026-10-23); imágenes Docker en T-01 (2026-10-25).
 | Microsoft.AspNetCore.Authentication.JwtBearer | 10.0.13 |
 | Swashbuckle.AspNetCore | 10.3.1 |
 | xUnit / NSubstitute / Shouldly / coverlet.collector | xunit.v3.mtp-off 4.0.2 + xunit.runner.visualstudio 4.0.1 + Microsoft.NET.Test.Sdk 18.11.0 / 6.2.0 / 4.3.0 / 10.1.0 (ver nota 3) |
+| Testcontainers.MsSql *(solo `Inventory.IntegrationTests`)* | 4.16.0 (ver nota 7) |
 | StyleCop.Analyzers | 1.2.0-beta.556 (ver nota 4) |
 | Imagen SQL Server | `mcr.microsoft.com/mssql/server:2022-CU27-GDR1-ubuntu-22.04` (ver nota 5) |
 | Imagen Keycloak | `quay.io/keycloak/keycloak:26.8.1` (ver nota 5) |
@@ -35,6 +36,7 @@ Fijadas en T-00 (2026-10-23); imágenes Docker en T-01 (2026-10-25).
 4. **StyleCop en beta:** la última estable (1.1.118, de 2019) da falsos positivos con C# 9–12 que el build trata como errores: SA1313 en *records* posicionales, SA1010 en *collection expressions* y SA1516 en *top-level statements*. La 1.2.0-beta.556 es la versión que usa la comunidad desde hace años. Las betas 1.3.x tenían solo unos días en el momento de elegir.
 5. **Etiquetas exactas de imagen:** `ARCH_SKELETON` §8 nombra las líneas (`mssql/server:2022`, `keycloak:26`), pero esas etiquetas no existen como tales. Se fija la última versión concreta de cada línea para que el arranque sea reproducible.
 6. **SDK de la imagen de build:** no hay imagen `sdk:10.0.108`. La `10.0.402` cumple `global.json` (`rollForward: latestFeature`). El runtime `aspnet:10.0.13` coincide con los paquetes `10.0.13`.
+7. **Testcontainers.MsSql 4.16.0:** última estable al elegir (publicada el 2026-10-08). Ya estaba en la Tech Fence (`ARCH_SKELETON` §6) y en ADR-0012, así que no requiere ADR nuevo. El contenedor usa la misma imagen exacta que `docker-compose.yml` (nota 5), para probar contra la misma versión de SQL Server.
 
 ## Política de dependencias
 - Una dependencia nueva requiere un **ADR** y añadirla a la Tech Fence (la edita el humano).
