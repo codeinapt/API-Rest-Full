@@ -11,4 +11,6 @@ public interface IProductWriteRepository
     Task<Product> InsertAsync(Product product, CancellationToken cancellationToken);
 
     Task UpdateDetailsAsync(Product product, CancellationToken cancellationToken);
+
+    Task UpdateCategoryAsync(Product product, CancellationToken cancellationToken);
 }
