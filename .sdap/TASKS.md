@@ -192,7 +192,7 @@
 
 ## Fase 5 — Cierre
 
-### [ ] T-23 · Datos semilla
+### [x] T-23 · Datos semilla
 - **Objetivo:** script DbUp con áreas `FOOD`, `CLEAN` y `TOOLS`, categorías y productos, con stock inicial cargado **mediante movimientos `In`** (RM-11).
 - **Payload:** `.sdap/DATA_MINDMAP.md` §2.6.
 - **Scope:** `I/Migrations/Scripts/NNNN_SeedData.sql`.
