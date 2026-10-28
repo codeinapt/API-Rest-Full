@@ -37,7 +37,7 @@ Decisiones: ADR-0002, ADR-0009. Reglas: `.sdap/DOMAIN_LOGIC.md` RS-01 a RS-06 y 
 - **Roles de Keycloak:** vienen en `realm_access.roles`. Un `IClaimsTransformation` (`KeycloakRolesClaimsTransformation`) los convierte en claims de rol estándar para que funcionen las políticas.
 - **Scopes:** vienen en la claim `scope`, separados por espacios.
 - **Políticas** (`CanRead`, `CanOperate`, `CanSupervise`, `CanAdminister`) registradas con nombres constantes y aplicadas con `[Authorize(Policy = ...)]` en cada acción. **No existe ningún endpoint de negocio sin política.**
-- `ICurrentUser` (`ClaimsCurrentUser`) expone `Subject`, `Roles` y `AreaCodes`.
+- `ICurrentUser` (`ClaimsCurrentUser`) expone `Subject`, `Roles` y `AreaCodes`. Las marcas de usuario de auditoría (`DeactivatedBy` en CU-12/CU-13) guardan `ICurrentUser.Subject`; el handler lo recibe por constructor y nunca del body.
 - **Alcance por área:** `AreaAccessPolicy.EnsureCanSupervise(areaCode)` en `Application`. Si el usuario no tiene la claim `areas`, se trata como lista vacía.
 
 ## Swagger
