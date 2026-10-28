@@ -135,7 +135,7 @@
 - **Scope:** `D/Products/*`, tests.
 - **Depende de:** T-04.
 
-### [ ] T-14 · Crear y editar producto (CU-09, CU-10)
+### [x] T-14 · Crear y editar producto (CU-09, CU-10)
 - **Payload:** `.sdap/USE_CASES.md` CU-09–10, SEQ-03.
 - **Scope:** `A/Products/Commands/{CreateProduct,UpdateProduct}/*`, `A/Products/Ports/IProductWriteRepository.cs`, `A/Products/Dtos/*`, `I/Persistence/Write/ProductWriteRepository.cs`, tests.
 - **Depende de:** T-11, T-13.
