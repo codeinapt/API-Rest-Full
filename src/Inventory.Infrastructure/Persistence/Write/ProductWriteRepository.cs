@@ -42,6 +42,18 @@ internal sealed class ProductWriteRepository(UnitOfWork unitOfWork) : IProductWr
         WHERE Id = @Id;
         """;
 
+    private const string DeleteSql = """
+        UPDATE dbo.Products
+        SET IsActive = 0, DeactivationReason = @DeactivationReason, DeactivationNotes = @DeactivationNotes, DeactivatedAt = @DeactivatedAt, DeactivatedBy = @DeactivatedBy
+        WHERE Id = @Id AND IsActive = 1 AND Stock = 0;
+        """;
+
+    private const string SaveDeactivationSql = """
+        UPDATE dbo.Products
+        SET IsActive = 0, DeactivationReason = @DeactivationReason, DeactivationNotes = @DeactivationNotes, DeactivatedAt = @DeactivatedAt, DeactivatedBy = @DeactivatedBy
+        WHERE Id = @Id AND IsActive = 1;
+        """;
+
     public async Task<Product?> GetByIdForUpdateAsync(int productId, CancellationToken cancellationToken)
     {
         return await unitOfWork.Connection.QuerySingleOrDefaultAsync<Product>(CreateCommand(SelectByIdForUpdateSql, new { ProductId = productId }, cancellationToken));
@@ -79,9 +91,27 @@ internal sealed class ProductWriteRepository(UnitOfWork unitOfWork) : IProductWr
         await unitOfWork.Connection.ExecuteAsync(CreateCommand(UpdateCategorySql, parameters, cancellationToken));
     }
 
+    public async Task<bool> DeleteAsync(Product product, CancellationToken cancellationToken)
+    {
+        return await ExecuteDeactivationAsync(DeleteSql, product, cancellationToken);
+    }
+
+    public async Task<bool> SaveDeactivationAsync(Product product, CancellationToken cancellationToken)
+    {
+        return await ExecuteDeactivationAsync(SaveDeactivationSql, product, cancellationToken);
+    }
+
     private static DbString ToAnsiSku(string sku)
     {
         return new DbString { Value = sku, IsAnsi = true, Length = Product.SkuMaximumLength };
+    }
+
+    private async Task<bool> ExecuteDeactivationAsync(string sql, Product product, CancellationToken cancellationToken)
+    {
+        var parameters = new { product.Id, DeactivationReason = (byte?)product.DeactivationReason, product.DeactivationNotes, product.DeactivatedAt, product.DeactivatedBy };
+        var affectedRows = await unitOfWork.Connection.ExecuteAsync(CreateCommand(sql, parameters, cancellationToken));
+
+        return affectedRows == 1;
     }
 
     private CommandDefinition CreateCommand(string sql, object parameters, CancellationToken cancellationToken)

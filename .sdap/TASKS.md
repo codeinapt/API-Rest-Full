@@ -145,7 +145,7 @@
 - **Scope:** `A/Products/Commands/ChangeProductCategory/*`, `ProductWriteRepository`, tests.
 - **Depende de:** T-14.
 
-### [ ] T-16 · Eliminar y desactivar producto (CU-12, CU-13)
+### [x] T-16 · Eliminar y desactivar producto (CU-12, CU-13)
 - **Payload:** `.sdap/USE_CASES.md` CU-12–13, SEQ-06.
 - **Scope:** `A/Products/Commands/{DeleteProduct,DeactivateProduct}/*`, `ProductWriteRepository`, tests.
 - **Depende de:** T-14.

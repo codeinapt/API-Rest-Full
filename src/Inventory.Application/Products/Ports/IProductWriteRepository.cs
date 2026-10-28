@@ -13,4 +13,8 @@ public interface IProductWriteRepository
     Task UpdateDetailsAsync(Product product, CancellationToken cancellationToken);
 
     Task UpdateCategoryAsync(Product product, CancellationToken cancellationToken);
+
+    Task<bool> DeleteAsync(Product product, CancellationToken cancellationToken);
+
+    Task<bool> SaveDeactivationAsync(Product product, CancellationToken cancellationToken);
 }

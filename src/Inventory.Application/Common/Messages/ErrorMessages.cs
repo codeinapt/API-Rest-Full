@@ -39,6 +39,9 @@ public static class ErrorMessages
     public const string ProductNameInvalid = "El nombre debe tener entre 3 y 150 caracteres.";
     public const string ProductDescriptionInvalid = "La descripción no puede superar los 1000 caracteres.";
     public const string MinimumStockInvalid = "El stock mínimo debe ser mayor o igual que 0.";
+    public const string DeactivationReasonInvalid = "El motivo debe ser Expired, Damaged, Discontinued, Recalled u Other.";
+    public const string DeactivationNotesTooLong = "Las notas no pueden superar los 500 caracteres.";
+    public const string DeactivationNotesRequired = "Las notas son obligatorias cuando el motivo es Other.";
     public const string PageOutOfRange = "La página debe ser mayor o igual que 1.";
     public const string PageSizeOutOfRange = "El tamaño de página debe estar entre 1 y 100.";
     public const string StatusInvalid = "El estado debe ser active, inactive o all.";

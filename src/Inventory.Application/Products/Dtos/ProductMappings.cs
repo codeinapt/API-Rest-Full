@@ -36,6 +36,11 @@ public static class ProductMappings
         return new ProductDetails(request.Name, request.Description, request.MinimumStock);
     }
 
+    public static ProductDeactivation ToDeactivation(this DeactivateProductRequest request, DateTime deactivatedAt, string deactivatedBy)
+    {
+        return new ProductDeactivation(request.Reason, request.Notes, deactivatedAt, deactivatedBy);
+    }
+
     private static ProductDeactivationResponse? ToDeactivationResponse(Product product)
     {
         if (product.DeactivationReason is not { } reason || product.DeactivatedAt is not { } deactivatedAt || product.DeactivatedBy is not { } deactivatedBy)

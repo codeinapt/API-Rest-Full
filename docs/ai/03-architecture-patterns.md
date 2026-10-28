@@ -53,7 +53,7 @@ Controller → Mediator → ValidationBehavior (FluentValidation) → Handler
 
 ## Doble barrera (regla + concurrencia)
 1. El **dominio** valida con el estado leído, lo que da errores comprensibles.
-2. La **sentencia SQL** repite la condición crítica de forma atómica (`WHERE Stock + @Delta >= 0`). Si afecta 0 filas, el repositorio informa al handler y este lanza el error correspondiente. Detalle: `.sdap/INTERFACE_FLOW.md` SEQ-04.
+2. La **sentencia SQL** repite la condición crítica de forma atómica (`WHERE Stock + @Delta >= 0`). Si afecta 0 filas, el repositorio informa al handler y este lanza el error correspondiente. Detalle: `.sdap/INTERFACE_FLOW.md` SEQ-04. La baja de producto (SEQ-06) aplica el mismo patrón: el puerto devuelve `bool` y el handler extrae la comprobación a un método privado (`EnsureDeletedAsync`, `EnsureDeactivationSavedAsync`) que lanza el error si no se ha escrito la fila.
 
 ## Flujo de datos (SDAP-06)
 Los diagramas de secuencia canónicos están en `.sdap/INTERFACE_FLOW.md`:
