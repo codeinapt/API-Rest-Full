@@ -147,7 +147,7 @@ dotnet test --collect:"XPlat Code Coverage" --results-directory TestResults   # 
   ```bash
   reportgenerator -reports:"TestResults/**/coverage.cobertura.xml" -targetdir:coverage -reporttypes:Html
   ```
-- **CI** ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)): en cada *push* y PR compila, ejecuta todos los tests y publica el informe HTML como artefacto `coverage-report`. **Falla si la cobertura de líneas de Domain + Application baja del 80 %** (actualmente 96,7 %).
+- **CI** ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)): en cada *push*, en los PR hacia `develop`/`main` y a demanda compila, ejecuta todos los tests y publica el informe HTML como artefacto `coverage-report`. **Falla si la cobertura de líneas de Domain + Application baja del 80 %** (actualmente 96,7 %).
 
 Estrategia completa: [ADR-0012](docs/adr/0012-estrategia-de-pruebas.md) y [`docs/ai/11-testing-strategy.md`](docs/ai/11-testing-strategy.md).
 
