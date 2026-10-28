@@ -18,6 +18,16 @@ internal sealed class ProductWriteRepository(UnitOfWork unitOfWork) : IProductWr
         WHERE Id = @ProductId;
         """;
 
+    private const string SelectSnapshotWithAreaForUpdateSql = """
+        SELECT p.Id, p.Sku, p.Name, p.Description, p.CategoryId, p.Stock, p.MinimumStock, p.IsActive,
+               p.DeactivationReason, p.DeactivationNotes, p.DeactivatedAt, p.DeactivatedBy, p.ReactivatedAt, p.ReactivatedBy, p.CreatedAt, p.UpdatedAt,
+               a.Code AS AreaCode
+        FROM dbo.Products p WITH (UPDLOCK, HOLDLOCK)
+        INNER JOIN dbo.Categories c ON c.Id = p.CategoryId
+        INNER JOIN dbo.Areas a ON a.Id = c.AreaId
+        WHERE p.Id = @ProductId;
+        """;
+
     private const string ExistsOtherActiveProductWithSkuSql = """
         SELECT CASE WHEN EXISTS (SELECT 1 FROM dbo.Products WHERE Sku = @Sku AND IsActive = 1 AND Id <> @Id) THEN 1 ELSE 0 END;
         """;
@@ -54,9 +64,25 @@ internal sealed class ProductWriteRepository(UnitOfWork unitOfWork) : IProductWr
         WHERE Id = @Id AND IsActive = 1;
         """;
 
+    private const string ReactivateSql = """
+        UPDATE p
+        SET IsActive = 1, ReactivatedAt = @ReactivatedAt, ReactivatedBy = @ReactivatedBy
+        FROM dbo.Products p
+        WHERE p.Id = @Id AND p.IsActive = 0
+          AND EXISTS (SELECT 1 FROM dbo.Categories c WHERE c.Id = p.CategoryId AND c.IsActive = 1);
+        """;
+
     public async Task<Product?> GetByIdForUpdateAsync(int productId, CancellationToken cancellationToken)
     {
         return await unitOfWork.Connection.QuerySingleOrDefaultAsync<Product>(CreateCommand(SelectByIdForUpdateSql, new { ProductId = productId }, cancellationToken));
+    }
+
+    public async Task<ProductAreaSnapshot?> GetSnapshotWithAreaForUpdateAsync(int productId, CancellationToken cancellationToken)
+    {
+        var command = CreateCommand(SelectSnapshotWithAreaForUpdateSql, new { ProductId = productId }, cancellationToken);
+        var snapshots = await unitOfWork.Connection.QueryAsync<Product, string, ProductAreaSnapshot>(command, (product, areaCode) => new ProductAreaSnapshot(product, areaCode), splitOn: "AreaCode");
+
+        return snapshots.SingleOrDefault();
     }
 
     public async Task<bool> ExistsOtherActiveProductWithSkuAsync(Product product, CancellationToken cancellationToken)
@@ -99,6 +125,21 @@ internal sealed class ProductWriteRepository(UnitOfWork unitOfWork) : IProductWr
     public async Task<bool> SaveDeactivationAsync(Product product, CancellationToken cancellationToken)
     {
         return await ExecuteDeactivationAsync(SaveDeactivationSql, product, cancellationToken);
+    }
+
+    public async Task<bool> ReactivateAsync(Product product, CancellationToken cancellationToken)
+    {
+        var parameters = new { product.Id, product.ReactivatedAt, product.ReactivatedBy };
+        try
+        {
+            var affectedRows = await unitOfWork.Connection.ExecuteAsync(CreateCommand(ReactivateSql, parameters, cancellationToken));
+
+            return affectedRows == 1;
+        }
+        catch (SqlException exception) when (exception.Number is UniqueIndexViolation or UniqueConstraintViolation)
+        {
+            throw new DomainException(ErrorCode.SkuAlreadyExists, product.Sku);
+        }
     }
 
     private static DbString ToAnsiSku(string sku)
