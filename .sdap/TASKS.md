@@ -172,7 +172,7 @@
 - **Scope:** `D/Movements/*`, tests.
 - **Depende de:** T-13.
 
-### [ ] T-20 · Registrar entrada / salida (CU-16)
+### [x] T-20 · Registrar entrada / salida (CU-16)
 - **Objetivo:** `ApplyDelta` atómico con `OUTPUT`, inserción del movimiento y transacción.
 - **Payload:** `.sdap/USE_CASES.md` CU-16, SEQ-04, `docs/ai/08` (Dapper).
 - **Scope:** `A/Movements/Commands/RegisterMovement/*`, `A/Movements/Ports/IMovementWriteRepository.cs`, `I/Persistence/Write/MovementWriteRepository.cs`, `ProductWriteRepository.ApplyDelta`, tests.
