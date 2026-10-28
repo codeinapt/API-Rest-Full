@@ -198,7 +198,7 @@
 - **Scope:** `I/Migrations/Scripts/NNNN_SeedData.sql`.
 - **Depende de:** T-22.
 
-### [ ] T-24 · Pruebas de integración *(extra)*
+### [x] T-24 · Pruebas de integración *(extra)*
 - **Objetivo:** Testcontainers. Concurrencia de salidas (RM-03), `DELETE` frente a entrada, unicidad filtrada, invariante del libro (RM-11).
 - **Payload:** `docs/ai/11`, casos límite de `.sdap/INTERFACE_FLOW.md`.
 - **Scope:** `tests/Inventory.IntegrationTests/*`, `Directory.Packages.props` (Testcontainers).
