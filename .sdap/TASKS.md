@@ -150,7 +150,7 @@
 - **Scope:** `A/Products/Commands/{DeleteProduct,DeactivateProduct}/*`, `ProductWriteRepository`, tests.
 - **Depende de:** T-14.
 
-### [ ] T-17 · Alcance por área y reactivación (CU-14)
+### [x] T-17 · Alcance por área y reactivación (CU-14)
 - **Objetivo:** `AreaAccessPolicy` (RS-04), `GetSnapshotWithArea` y reactivación con la traducción de la violación de SKU único.
 - **Payload:** `.sdap/USE_CASES.md` CU-14, SEQ-07, `.sdap/DOMAIN_LOGIC.md` RS-04 y RP-11–RP-13, `docs/ai/10`.
 - **Scope:** `A/Common/Authorization/AreaAccessPolicy.cs`, `A/Products/Commands/ReactivateProduct/*`, `ProductWriteRepository`, tests.
