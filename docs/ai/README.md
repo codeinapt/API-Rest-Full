@@ -26,4 +26,4 @@ SDAP define 15 archivos. Para una API de 4 entidades sin interfaz gráfica, se m
 
 **Evidencia del proceso:** [audits/](audits/) (informes del auditor por tarea).
 
-> **Estado actual:** documentación *prescriptiva*. Aún no existe código; cada tarea convierte estas guías en descripción del código real mediante Reverse Sync.
+> **Estado actual:** documentación *descriptiva* del código implementado (T-00 a T-26). Cada tarea convirtió estas guías en descripción del código real mediante Reverse Sync; el punto de entrada para personas es el [README](../../README.md) de la raíz.
