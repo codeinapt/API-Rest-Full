@@ -1,3 +1,4 @@
+using Inventory.Domain.Movements;
 using Inventory.Domain.Products;
 
 namespace Inventory.Application.Products.Ports;
@@ -5,6 +6,8 @@ namespace Inventory.Application.Products.Ports;
 public interface IProductWriteRepository
 {
     Task<Product?> GetByIdForUpdateAsync(int productId, CancellationToken cancellationToken);
+
+    Task<Product?> GetStockSnapshotAsync(int productId, CancellationToken cancellationToken);
 
     Task<ProductAreaSnapshot?> GetSnapshotWithAreaForUpdateAsync(int productId, CancellationToken cancellationToken);
 
@@ -21,4 +24,6 @@ public interface IProductWriteRepository
     Task<bool> SaveDeactivationAsync(Product product, CancellationToken cancellationToken);
 
     Task<bool> ReactivateAsync(Product product, CancellationToken cancellationToken);
+
+    Task<int?> ApplyDeltaAsync(InventoryMovement movement, CancellationToken cancellationToken);
 }

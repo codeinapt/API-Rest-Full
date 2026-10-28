@@ -1,6 +1,7 @@
 using Dapper;
 using Inventory.Application.Products.Ports;
 using Inventory.Domain.Common;
+using Inventory.Domain.Movements;
 using Inventory.Domain.Products;
 using Microsoft.Data.SqlClient;
 
@@ -15,6 +16,13 @@ internal sealed class ProductWriteRepository(UnitOfWork unitOfWork) : IProductWr
         SELECT Id, Sku, Name, Description, CategoryId, Stock, MinimumStock, IsActive,
                DeactivationReason, DeactivationNotes, DeactivatedAt, DeactivatedBy, ReactivatedAt, ReactivatedBy, CreatedAt, UpdatedAt
         FROM dbo.Products WITH (UPDLOCK, HOLDLOCK)
+        WHERE Id = @ProductId;
+        """;
+
+    private const string SelectStockSnapshotSql = """
+        SELECT Id, Sku, Name, Description, CategoryId, Stock, MinimumStock, IsActive,
+               DeactivationReason, DeactivationNotes, DeactivatedAt, DeactivatedBy, ReactivatedAt, ReactivatedBy, CreatedAt, UpdatedAt
+        FROM dbo.Products
         WHERE Id = @ProductId;
         """;
 
@@ -71,6 +79,18 @@ internal sealed class ProductWriteRepository(UnitOfWork unitOfWork) : IProductWr
         WHERE p.Id = @Id AND p.IsActive = 0
           AND EXISTS (SELECT 1 FROM dbo.Categories c WHERE c.Id = p.CategoryId AND c.IsActive = 1);
         """;
+
+    private const string ApplyDeltaSql = """
+        UPDATE dbo.Products
+        SET Stock = Stock + @Delta
+        OUTPUT deleted.Stock
+        WHERE Id = @ProductId AND IsActive = 1 AND Stock + @Delta >= 0;
+        """;
+
+    public async Task<Product?> GetStockSnapshotAsync(int productId, CancellationToken cancellationToken)
+    {
+        return await unitOfWork.Connection.QuerySingleOrDefaultAsync<Product>(CreateCommand(SelectStockSnapshotSql, new { ProductId = productId }, cancellationToken));
+    }
 
     public async Task<Product?> GetByIdForUpdateAsync(int productId, CancellationToken cancellationToken)
     {
@@ -140,6 +160,13 @@ internal sealed class ProductWriteRepository(UnitOfWork unitOfWork) : IProductWr
         {
             throw new DomainException(ErrorCode.SkuAlreadyExists, product.Sku);
         }
+    }
+
+    public async Task<int?> ApplyDeltaAsync(InventoryMovement movement, CancellationToken cancellationToken)
+    {
+        var parameters = new { movement.ProductId, movement.Delta };
+
+        return await unitOfWork.Connection.QuerySingleOrDefaultAsync<int?>(CreateCommand(ApplyDeltaSql, parameters, cancellationToken));
     }
 
     private static DbString ToAnsiSku(string sku)

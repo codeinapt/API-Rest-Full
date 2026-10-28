@@ -42,6 +42,9 @@ public static class ErrorMessages
     public const string DeactivationReasonInvalid = "El motivo debe ser Expired, Damaged, Discontinued, Recalled u Other.";
     public const string DeactivationNotesTooLong = "Las notas no pueden superar los 500 caracteres.";
     public const string DeactivationNotesRequired = "Las notas son obligatorias cuando el motivo es Other.";
+    public const string MovementTypeInvalid = "El tipo debe ser In u Out.";
+    public const string MovementQuantityInvalid = "La cantidad debe estar entre 1 y 1.000.000.";
+    public const string MovementNotesTooLong = "Las notas no pueden superar los 500 caracteres.";
     public const string PageOutOfRange = "La página debe ser mayor o igual que 1.";
     public const string PageSizeOutOfRange = "El tamaño de página debe estar entre 1 y 100.";
     public const string StatusInvalid = "El estado debe ser active, inactive o all.";
